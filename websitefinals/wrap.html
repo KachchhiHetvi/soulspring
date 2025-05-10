@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Bubble Wrap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #12714b;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            color: #555;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #4da640;
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #157f20;
+        }
+        
+        button.active {
+            background-color: #ff4500;
+        }
+        
+        button.active:hover {
+            background-color: #cc3700;
+        }
+        
+        .stats {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #446012;
+        }
+        
+        .bubble-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            max-width: 600px;
+            background-color: #53ed8452;
+            border: 4px solid #13753f;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .bubble {
+            width: 50px;
+            height: 50px;
+            background-color: #f0f8ff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(3, 4, 3, 5);
+            overflow: hidden;
+            transition: background-color 0.1s;
+        }
+        
+        .bubble::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.769);
+            border-radius: 50%;
+            top: 15px;
+            left: 15px;
+            transform: rotate(30deg);
+        }
+        
+        .bubble.popped {
+            background-color: #d1d1d1;
+            box-shadow: none;
+        }
+        
+        .bubble.popped::after {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .bubble-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .bubble {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .bubble::after {
+                width: 15px;
+                height: 8px;
+                top: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Virtual Bubble Wrap</h1>
+    <p class="instructions">Click or tap the bubbles to pop them! <br>Feel the satisfaction.</p>
+    
+    <div class="controls">
+        <button id="reset">New Sheet</button>
+        <button id="popAll">Pop All</button>
+        <button id="maniacMode">Maniac Mode</button>
+    </div>
+    
+    <div class="stats">
+        <span id="popped">0</span> bubbles popped out of <span id="total">100</span>
+    </div>
+    
+    <div class="bubble-container" id="bubbleContainer"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bubbleContainer = document.getElementById('bubbleContainer');
+            const resetButton = document.getElementById('reset');
+            const popAllButton = document.getElementById('popAll');
+            const maniacModeButton = document.getElementById('maniacMode');
+            const poppedCount = document.getElementById('popped');
+            const totalCount = document.getElementById('total');
+            
+            const rows = 10;
+            const cols = 10;
+            const totalBubbles = rows * cols;
+            let popped = 0;
+            let maniacModeActive = false;
+            
+            // Create a consistent pop sound
+            let audioContext;
+            
+            function initAudio() {
+                // Initialize audio context on user interaction to comply with browser policies
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+            
+            function playPopSound() {
+                if (!audioContext) return;
+                
+                // Create a more consistent pop sound
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(350, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.2);
+                
+                gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.2);
+            }
+            
+            function popBubble(bubble) {
+                if (!bubble.classList.contains('popped')) {
+                    bubble.classList.add('popped');
+                    playPopSound();
+                    popped++;
+                    poppedCount.textContent = popped;
+                }
+            }
+            
+            function createBubbleWrap() {
+                bubbleContainer.innerHTML = '';
+                popped = 0;
+                poppedCount.textContent = popped;
+                totalCount.textContent = totalBubbles;
+                
+                for (let i = 0; i < totalBubbles; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    
+                    // Click handler
+                    bubble.addEventListener('click', function() {
+                        initAudio(); // Initialize audio on first interaction
+                        popBubble(bubble);
+                    });
+                    
+                    // Hover handler for maniac mode
+                    bubble.addEventListener('mouseenter', function() {
+                        if (maniacModeActive) {
+                            initAudio();
+                            popBubble(bubble);
+                        }
+                    });
+                    
+                    // Mobile touch move handler for maniac mode
+                    bubble.addEventListener('touchmove', function(event) {
+                        if (maniacModeActive) {
+                            initAudio();
+                            // Get touch position
+                            const touch = event.touches[0];
+                            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+                            
+                            // Check if touch is over an unpopped bubble
+                            for (const element of elements) {
+                                if (element.classList.contains('bubble') && !element.classList.contains('popped')) {
+                                    popBubble(element);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    
+                    bubbleContainer.appendChild(bubble);
+                }
+            }
+            
+            function popAllBubbles() {
+                initAudio(); // Initialize audio on interaction
+                const bubbles = document.querySelectorAll('.bubble:not(.popped)');
+                if (bubbles.length === 0) return;
+                
+                let delay = 0;
+                bubbles.forEach(bubble => {
+                    setTimeout(() => {
+                        popBubble(bubble);
+                    }, delay);
+                    delay += 30;
+                });
+            }
+            
+            function toggleManiacMode() {
+                maniacModeActive = !maniacModeActive;
+                
+                if (maniacModeActive) {
+                    maniacModeButton.classList.add('active');
+                    maniacModeButton.textContent = 'Maniac Mode: ON';
+                } else {
+                    maniacModeButton.classList.remove('active');
+                    maniacModeButton.textContent = 'Maniac Mode';
+                }
+            }
+            
+            resetButton.addEventListener('click', function() {
+                initAudio(); // Initialize audio on interaction
+                createBubbleWrap();
+            });
+            
+            popAllButton.addEventListener('click', popAllBubbles);
+            
+            maniacModeButton.addEventListener('click', function() {
+                initAudio();
+                toggleManiacMode();
+            });
+            
+            // Add touchmove event to bubble container for mobile
+            bubbleContainer.addEventListener('touchmove', function(event) {
+                if (maniacModeActive) {
+                    // Prevent scrolling when in maniac mode
+                    event.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Initial creation
+            createBubbleWrap();
+            
+            // Enable keyboard control
+            document.addEventListener('keydown', function(event) {
+                initAudio(); // Initialize audio on interaction
+                if (event.code === 'KeyR') {
+                    createBubbleWrap();
+                } else if (event.code === 'KeyA') {
+                    popAllBubbles();
+                } else if (event.code === 'KeyM') {
+                    toggleManiacMode();
+                }
+            });
+            
+            // Initialize audio context on first user interaction with the page
+            document.addEventListener('click', initAudio, { once: true });
+        });
+    </script>
+</body>
+</html>

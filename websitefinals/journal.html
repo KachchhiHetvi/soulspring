@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Spring</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      color: #474646;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.6;
+      animation: fade-page 0.5s ease-in-out;
+      background: url('https://i.pinimg.com/736x/9b/07/10/9b0710b819683e66ad0c5468d13a1723.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #000000;
+      padding-top: 10px; /* Space for fixed header */
+      position: relative;
+    }
+
+    /* Add overlay to fade background slightly */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1); /* Slight white overlay for fading */
+      z-index: -1;
+    }
+
+    @keyframes fade-page {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slide-in {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    header {
+      background-color: #81c784;
+      width: 100%;
+      padding: 15px 0;
+      text-align: center;
+      border-bottom: 3px solid #558b2f;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.288);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size:  min(49px, 10vw);
+      color: #ffffff;
+      margin: 0;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.689);
+      animation: slide-in 1s ease-in-out;
+    }
+
+    .profile-pic-container {
+      position: absolute;
+      right: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-pic-button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background-color: #eaeee9;
+      border: 2px solid #246d0d;
+      border-radius: 50%;
+      padding: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .profile-pic-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .profile-pic {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+            header {
+                padding: 15px 0;
+            }
+
+            .header-container {
+                flex-direction: column;
+            }
+            .profile-pic-container {
+                position: absolute;
+                top: 15px;
+                right: 110px;
+            }
+
+            .profile-pic {
+                width: 35px;
+                height: 35px;
+            }
+
+            main {
+                margin-top: 100px;
+            }
+        }
+
+    main {
+      flex: 1;
+      padding-bottom: 100px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-bottom: 80px;
+      margin-top: 80px;
+      
+      
+    }
+
+    footer {
+            
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        footer a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+
+        footer a.active {
+            color: #246d0d;
+        }
+
+        footer a:hover {
+            color: #0b280c;
+        }
+
+        footer i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        footer span {
+            font-size: 0.75rem;
+        }
+
+    h2 {
+      text-align: center;
+      font-size: 2.3rem;
+      color: #0828059f;
+      margin: 20px 0;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    h3 {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #000000;
+      margin-bottom: 15px;
+    }
+
+    .date-picker {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+
+    .date-picker label {
+      display: block;
+      color: #000000;
+      font-weight: 500;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .date-picker input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.26);
+    }
+
+    .mood-tracker {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.936);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.26);
+    }
+
+    .mood-options {
+      display: flex;
+      justify-content: space-around;
+      padding: 15px 0;
+    }
+
+    .mood-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 5px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mood-option:hover {
+      transform: scale(1.1);
+    }
+
+    .mood-option.selected {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 3px rgba(20, 147, 39, 0.3);
+    }
+
+    .mood-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .mood-notes {
+      width: 100%;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin: 8px 0;
+      resize: vertical;
+      height: 40px; /* Decreased from the default height */
+    }
+
+    .save-mood-btn {
+      width: 100%;
+      padding: 5px;
+      background-color: #014f09;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .save-mood-btn:hover {
+      background-color: #237836;
+    }
+
+    .diary-entry-form {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      
+    }
+
+    .diary-input {
+      width: 100%;
+      height: 250px;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+      background-color: rgba(255, 255, 255, 0.918);
+      color: #1a1919;
+      font-size: 1rem;
+      resize: vertical;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.26);
+    }
+
+    .submit-btn {
+      padding: 5px 25px;
+      background-color: #014f09;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #66bb6a;
+    }
+
+    .error-message {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      color: #e57373;
+      font-size: 0.9rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .theme-selector {
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      margin-top: -100px; 
+    }
+
+    .theme-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      margin-bottom: 70px;
+    }
+
+    .theme-btn {
+      padding: 10px 15px;
+      background-color: #ffffff;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .theme-btn:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .theme-btn.active {
+      border-color: #1d7b17;
+      background-color: #f3f0ff;
+    }
+
+    .diary-display {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .diary-entries {
+      width: 100%;
+    }
+
+    .diary-entry {
+      background-color: rgba(255, 255, 255, 0.936);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.594);
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .entry-date {
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .entry-mood {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .entry-mood-icon {
+      font-size: 1rem;
+    }
+
+    .entry-text {
+      white-space: pre-wrap;
+      color: #333;
+    }
+
+    .delete-entry {
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #e57373;
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+
+    .mood-chart-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #moodChart {
+      max-height: 300px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .theme-buttons {
+        gap: 10px;
+      }
+      
+      .theme-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+
+      .mood-options {
+        flex-wrap: wrap;
+      }
+
+      .mood-option {
+        margin: 5px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .profile-pic {
+        width: 35px;
+        height: 35px;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      .theme-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+
+      .diary-input {
+        height: 120px;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1 class="text-6xl font-bold">Soul Spring</h1>
+
+      <div class="profile-pic-container">
+        <label class="profile-pic-button">
+          <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+        </label>
+      </div>
+    </div>
+  </header> 
+      
+  <main>
+    <h2 class="text-3xl font-bold">My Calming Diary</h2>
+
+    <!-- Date Picker -->
+    <div class="date-picker">
+      <label for="entry-date">Date</label>
+      <input type="date" id="entry-date">
+    </div>
+
+    <!-- Current Mood Section -->
+    <div class="mood-tracker">
+      <h3>How are you feeling today?</h3>
+      
+      <div class="mood-options">
+        <!-- Mood Options -->
+        <div class="mood-option" data-mood="awful" data-color="red">
+          <i class="mood-icon fas fa-dizzy" style="color: #ef4444;"></i>
+        </div>
+        <div class="mood-option" data-mood="bad" data-color="orange">
+          <i class="mood-icon fas fa-frown" style="color: #f97316;"></i>
+        </div>
+        <div class="mood-option" data-mood="neutral" data-color="yellow">
+          <i class="mood-icon fas fa-meh" style="color: #eab308;"></i>
+        </div>
+        <div class="mood-option" data-mood="good" data-color="green">
+          <i class="mood-icon fas fa-smile" style="color: #22c55e;"></i>
+        </div>
+        <div class="mood-option" data-mood="great" data-color="purple">
+          <i class="mood-icon fas fa-laugh" style="color: #8b5cf6;"></i>
+        </div>
+      </div>
+
+      <textarea id="mood-notes" class="mood-notes" placeholder="Any notes about how you're feeling? (optional)"></textarea>
+
+      <!-- Save Button -->
+      <button id="save-mood" class="save-mood-btn">
+        Save Mood
+      </button>
+    </div>
+
+    <!-- Diary Entry Form -->
+    <form class="diary-entry-form" id="diary-form">
+      <textarea placeholder="Write your thoughts here..." class="diary-input" id="diary-input"></textarea>
+      <div class="error-message" id="error-message">Entry cannot be empty!</div>
+      <button type="submit" class="submit-btn">Save Entry</button>
+    </form>
+
+    <!-- Mood History Chart -->
+    <div class="mood-chart-container">
+      <h3>Your Mood History</h3>
+      <canvas id="moodChart"></canvas>
+    </div>
+
+    <!-- Diary Entries Display -->
+    <div class="diary-display">
+      <h2>Your Diary Entries</h2>
+      <div class="diary-entries" id="diary-entries"></div>
+    </div>
+  </main>
+
+      <!-- Footer Navigation -->
+  <footer class="fixed bottom-0 w-full bg-white shadow-lg">
+    <nav class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-home text-l"></i>
+            <span class="text-xs mt-1">Home</span>
+        </a>
+        <a href="journal.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-book text-l"></i>
+            <span class="text-xs mt-1">Journal</span>
+        </a>
+        <a href="todolist.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-tasks text-l"></i>
+            <span class="text-xs mt-1">Productivity</span>
+        </a>
+        <a href="games2.html">
+          <i class="fas fa-gamepad text-l"></i>
+          <span class="text-xs mt-1">Games</span>
+        </a>
+        <a href="thoughts.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-lightbulb text-l"></i>
+            <span class="text-xs mt-1">Thoughts</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-cog text-l"></i>
+            <span class="text-xs mt-1">Settings</span>
+        </a>
+    </nav>
+</footer>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <h2>Select a Theme</h2>
+        <div class="theme-buttons">
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/9b/07/10/9b0710b819683e66ad0c5468d13a1723.jpg">Theme 1</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/83/b9/c2/83b9c21c851511afb7b2be2a9395cbe6.jpg">Theme 2</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/a8/3e/cf/a83ecf2c4b8efcc394f9d76541321bf2.jpg">Theme 3</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/a5/70/b5/a570b57e5668428605dfab56fd339c9f.jpg">Theme 4</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/2d/f4/14/2df414a8060afe8222c6a717a5eb0fb1.jpg">Theme 5</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/e3/95/c8/e395c810300b871a611211efb827af09.jpg">Theme 6</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/8d/c1/82/8dc1825da20d31c1e968ae33351e5b3a.jpg">Theme 7</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/e6/8f/0f/e68f0f1fb91f01551bd474458514a36e.jpg">Theme 8</button>
+          <button class="theme-btn" data-img="https://i.pinimg.com/736x/cd/82/42/cd8242d8f67e42bd9c0fcc8dfd845d1b.jpg">Theme 9</button>
+        </div>
+      </div>
+  
+  <script>
+    // DOM Elements
+    const profilePicUpload = document.getElementById('profile-pic-upload');
+    const profilePic = document.getElementById('profile-pic');
+    const entryDateInput = document.getElementById('entry-date');
+    const moodOptions = document.querySelectorAll('.mood-option');
+    const moodNotesInput = document.getElementById('mood-notes');
+    const saveMoodBtn = document.getElementById('save-mood');
+    const diaryForm = document.getElementById('diary-form');
+    const diaryInput = document.getElementById('diary-input');
+    const errorMessage = document.getElementById('error-message');
+    const diaryEntries = document.getElementById('diary-entries');
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    
+    let selectedMood = null;
+    let moodChart = null;
+    
+    // Set today's date as default
+    entryDateInput.valueAsDate = new Date();
+    
+    // Load saved entries and settings from localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSavedEntries();
+      loadSavedTheme();
+      loadSavedProfilePic();
+      updateMoodChart();
+    });
+
+
+    // Theme selection
+    themeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        themeButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        const imgURL = button.getAttribute('data-img');
+        document.body.style.background = `url('${imgURL}') no-repeat center center fixed`;
+        document.body.style.backgroundSize = 'cover';
+        
+        // Save selected theme to localStorage
+        localStorage.setItem('selectedTheme', imgURL);
+      });
+    });
+
+    // Mood selection
+    moodOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        moodOptions.forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        option.classList.add('selected');
+        selectedMood = {
+          type: option.dataset.mood,
+          color: option.dataset.color
+        };
+      });
+    });
+
+    // Save mood entry
+    saveMoodBtn.addEventListener('click', () => {
+      if (!selectedMood) {
+        alert('Please select your mood first!');
+        return;
+      }
+      
+      const notes = moodNotesInput.value;
+      const selectedDate = entryDateInput.value;
+      
+      // Create mood entry object
+      const moodEntry = {
+        date: selectedDate,
+        mood: selectedMood.type,
+        color: selectedMood.color,
+        notes: notes,
+        timestamp: Date.now()
+      };
+      
+      // Save to localStorage
+      let moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      moodHistory.push(moodEntry);
+      localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+      
+      // Update UI
+      updateMoodChart();
+      
+      // Reset form
+      moodOptions.forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      moodNotesInput.value = '';
+      selectedMood = null;
+      
+      alert('Mood recorded successfully!');
+    });
+
+    // Diary Form submission
+    diaryForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      if (diaryInput.value.trim() === "") {
+        errorMessage.style.display = "block";
+        return;
+      } else {
+        errorMessage.style.display = "none";
+      }
+      
+      addNewEntry(diaryInput.value, entryDateInput.value);
+      diaryInput.value = "";
+    });
+
+    // Add new diary entry
+    function addNewEntry(text, date) {
+      const entryDate = new Date(date);
+      const dateString = entryDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      
+      // Get the current mood for this date if available
+      const moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      const matchingMoods = moodHistory.filter(m => m.date === date);
+      const currentMood = matchingMoods.length > 0 
+        ? matchingMoods.sort((a, b) => b.timestamp - a.timestamp)[0] // Get the most recent mood
+        : null;
+      
+      // Create entry object
+      const entry = {
+        text: text,
+        date: dateString,
+        rawDate: date,
+        id: Date.now(),
+        mood: currentMood ? currentMood.mood : null,
+        moodColor: currentMood ? currentMood.color : null
+      };
+      
+      // Save to localStorage
+      saveEntry(entry);
+      
+      // Create and append entry element
+      const entryElement = createEntryElement(entry);
+      diaryEntries.prepend(entryElement); // Prepend to show newest entries first
+    }
+
+    // Create entry DOM element
+    function createEntryElement(entry) {
+      const entryDiv = document.createElement('div');
+      entryDiv.className = 'diary-entry';
+      entryDiv.dataset.id = entry.id;
+      
+      const entryHeader = document.createElement('div');
+      entryHeader.className = 'entry-header';
+      
+      const dateDiv = document.createElement('div');
+      dateDiv.className = 'entry-date';
+      dateDiv.textContent = entry.date;
+      
+      // Add mood to entry if available
+      if (entry.mood) {
+        const moodDiv = document.createElement('div');
+        moodDiv.className = 'entry-mood';
+        
+        const moodIcon = document.createElement('i');
+        
+        // Set icon based on mood
+        switch(entry.mood) {
+          case 'awful':
+            moodIcon.className = 'entry-mood-icon fas fa-dizzy';
+            moodIcon.style.color = '#ef4444';
+            break;
+          case 'bad':
+            moodIcon.className = 'entry-mood-icon fas fa-frown';
+            moodIcon.style.color = '#f97316';
+            break;
+          case 'neutral':
+            moodIcon.className = 'entry-mood-icon fas fa-meh';
+            moodIcon.style.color = '#eab308';
+            break;
+          case 'good':
+            moodIcon.className = 'entry-mood-icon fas fa-smile';
+            moodIcon.style.color = '#22c55e';
+            break;
+          case 'great':
+            moodIcon.className = 'entry-mood-icon fas fa-laugh';
+            moodIcon.style.color = '#8b5cf6';
+            break;
+        }
+        
+        moodDiv.appendChild(moodIcon);
+        entryHeader.appendChild(moodDiv);
+      }
+      
+      const textDiv = document.createElement('div');
+      textDiv.className = 'entry-text';
+      textDiv.textContent = entry.text;
+      
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'delete-entry';
+      deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+      deleteButton.addEventListener('click', function() {
+        deleteEntry(entry.id);
+        entryDiv.remove();
+      });
+      
+      entryHeader.appendChild(dateDiv);
+      entryDiv.appendChild(entryHeader);
+      entryDiv.appendChild(textDiv);
+      entryDiv.appendChild(deleteButton);
+      
+      return entryDiv;
+    }
+
+    // Save entry to localStorage
+    function saveEntry(entry) {
+      let entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+      entries.push(entry);
+      localStorage.setItem('diaryEntries', JSON.stringify(entries));
+    }
+
+    // Delete entry from localStorage and DOM
+    function deleteEntry(id) {
+      let entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+      entries = entries.filter(entry => entry.id !== parseInt(id));
+      localStorage.setItem('diaryEntries', JSON.stringify(entries));
+    }
+
+    // Load saved entries from localStorage
+    function loadSavedEntries() {
+      const entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+      const moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      
+      // Sort entries by date (newest first)
+      entries.sort((a, b) => b.id - a.id);
+      
+      // Create elements for each entry and add mood if available
+      entries.forEach(entry => {
+        // If the entry doesn't already have mood info, try to find the relevant mood
+        if (!entry.mood) {
+          const entryDate = entry.rawDate;
+          const matchingMoods = moodHistory.filter(m => m.date === entryDate);
+          
+          if (matchingMoods.length > 0) {
+            // Get the most recent mood for this date
+            const currentMood = matchingMoods.sort((a, b) => b.timestamp - a.timestamp)[0];
+            entry.mood = currentMood.mood;
+            entry.moodColor = currentMood.color;
+          }
+        }
+        
+        const entryElement = createEntryElement(entry);
+        diaryEntries.appendChild(entryElement);
+      });
+    }
+
+    // Load saved theme from localStorage
+    function loadSavedTheme() {
+      const savedTheme = localStorage.getItem('selectedTheme');
+      if (savedTheme) {
+        document.body.style.background = `url('${savedTheme}') no-repeat center center fixed`;
+        document.body.style.backgroundSize = 'cover';
+        
+        // Set active class on the correct button
+        themeButtons.forEach(btn => {
+          if (btn.getAttribute('data-img') === savedTheme) {
+            btn.classList.add('active');
+          }
+        });
+      } else {
+        // Set default theme if none saved
+        themeButtons[0].classList.add('active');
+      }
+    }
+
+    function loadProfilePicture() {
+  const profilePicElement = document.getElementById('profile-pic');
+  if (profilePicElement) {
+    const savedProfilePic = localStorage.getItem("profilePicture");
+    if (savedProfilePic) {
+      profilePicElement.src = savedProfilePic;
+    }
+  }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadProfilePicture);
+
+    // Update mood chart
+    function updateMoodChart() {
+      const moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      
+      // Get last 7 days
+      const dates = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        dates.push(date.toISOString().split('T')[0]);
+      }
+      
+      // Prepare data for chart
+      const moodValues = {
+        awful: 1,
+        bad: 2,
+        neutral: 3,
+        good: 4,
+        great: 5
+      };
+      
+      // Group moods by date (using the most recent mood for each day)
+      const moodByDate = {};
+      
+      // Sort by timestamp to ensure latest mood is used when there are multiple entries for a day
+      moodHistory.sort((a, b) => a.timestamp - b.timestamp);
+      
+      moodHistory.sort((a, b) => a.timestamp - b.timestamp);
+      
+      moodHistory.forEach(entry => {
+        moodByDate[entry.date] = entry;
+      });
+      
+      const chartData = dates.map(date => {
+        return moodByDate[date] ? moodValues[moodByDate[date].mood] : null;
+      });
+      
+      const backgroundColors = dates.map(date => {
+        if (!moodByDate[date]) return 'rgba(200, 200, 200, 0.2)';
+        
+        return {
+          awful: 'rgba(239, 68, 68, 0.5)',
+          bad: 'rgba(249, 115, 22, 0.5)',
+          neutral: 'rgba(234, 179, 8, 0.5)',
+          good: 'rgba(34, 197, 94, 0.5)',
+          great: 'rgba(139, 92, 246, 0.5)'
+        }[moodByDate[date].mood];
+      });
+      
+      const borderColors = dates.map(date => {
+        if (!moodByDate[date]) return 'rgba(200, 200, 200, 1)';
+        
+        return {
+          awful: 'rgba(239, 68, 68, 1)',
+          bad: 'rgba(249, 115, 22, 1)',
+          neutral: 'rgba(234, 179, 8, 1)',
+          good: 'rgba(34, 197, 94, 1)',
+          great: 'rgba(139, 92, 246, 1)'
+        }[moodByDate[date].mood];
+      });
+      
+      // Create or update chart
+      const ctx = document.getElementById('moodChart').getContext('2d');
+      
+      if (moodChart) {
+        moodChart.data.labels = dates.map(d => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+        moodChart.data.datasets[0].data = chartData;
+        moodChart.data.datasets[0].backgroundColor = backgroundColors;
+        moodChart.data.datasets[0].borderColor = borderColors;
+        moodChart.update();
+      } else {
+        moodChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates.map(d => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
+            datasets: [{
+              label: 'Mood',
+              data: chartData,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors,
+              borderWidth: 2,
+              tension: 0.3,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                min: 0,
+                max: 6,
+                ticks: {
+                  callback: function(value) {
+                    const moodLabels = {
+                      1: 'Awful',
+                      2: 'Bad',
+                      3: 'Okay',
+                      4: 'Good',
+                      5: 'Great'
+                    };
+                    return moodLabels[value] || '';
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const date = dates[context.dataIndex];
+                    const entry = moodByDate[date];
+                    
+                    if (!entry) return 'No mood recorded';
+                    
+                    // Show only notes if they exist, otherwise show "No notes"
+                    if (entry.notes && entry.notes.trim() !== '') {
+                          return `Notes: ${entry.notes}`;
+                        } else {
+                        return 'No notes';
+                        }
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // Function to clear all data (for testing/reset purposes)
+    function clearAllData() {
+      if (confirm('Are you sure you want to delete all your diary entries and mood data? This cannot be undone.')) {
+        localStorage.removeItem('diaryEntries');
+        localStorage.removeItem('moodHistory');
+        localStorage.removeItem('selectedTheme');
+        localStorage.removeItem('profilePic');
+        
+        // Reset UI
+        diaryEntries.innerHTML = '';
+        
+        if (moodChart) {
+          moodChart.destroy();
+          moodChart = null;
+          updateMoodChart();
+        }
+        
+        // Reset profile picture
+        profilePic.src = 'https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg';
+        
+        // Reset theme
+        document.body.style.background = 'url("https://i.pinimg.com/474x/df/76/4d/df764d099db46a5c909b4b0055fc3d73.jpg") no-repeat center center fixed';
+        document.body.style.backgroundSize = 'cover';
+        
+        themeButtons.forEach(btn => btn.classList.remove('active'));
+        themeButtons[0].classList.add('active');
+        
+        alert('All data has been cleared!');
+      }
+    }
+
+    // Export data as JSON function
+    function exportData() {
+      const data = {
+        diaryEntries: JSON.parse(localStorage.getItem('diaryEntries') || '[]'),
+        moodHistory: JSON.parse(localStorage.getItem('moodHistory') || '[]'),
+        exportDate: new Date().toISOString()
+      };
+      
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      
+      const exportFileDefaultName = 'soul-spring-data.json';
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+
+    // Add keyboard shortcut (Ctrl+S) to save diary entry
+    document.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 's' && document.activeElement === diaryInput) {
+        event.preventDefault();
+        if (diaryInput.value.trim() !== '') {
+          diaryForm.dispatchEvent(new Event('submit'));
+        }
+      }
+    });
+
+    // Create export and reset buttons in the UI
+    function createUtilityButtons() {
+      const utilityContainer = document.createElement('div');
+      utilityContainer.style.width = '100%';
+      utilityContainer.style.maxWidth = '600px';
+      utilityContainer.style.display = 'flex';
+      utilityContainer.style.justifyContent = 'center';
+      utilityContainer.style.gap = '15px';
+      utilityContainer.style.margin = '25px 0';
+      
+      const exportBtn = document.createElement('button');
+      exportBtn.textContent = 'Export Data';
+      exportBtn.classList.add('submit-btn');
+      exportBtn.style.backgroundColor = '#3b82f6';
+      exportBtn.addEventListener('click', exportData);
+      
+      const resetBtn = document.createElement('button');
+      resetBtn.textContent = 'Reset All Data';
+      resetBtn.classList.add('submit-btn');
+      resetBtn.style.backgroundColor = '#ef4444';
+      resetBtn.addEventListener('click', clearAllData);
+      
+      utilityContainer.appendChild(exportBtn);
+      utilityContainer.appendChild(resetBtn);
+      
+      // Add after the diary display
+      document.querySelector('.diary-display').after(utilityContainer);
+    }
+    
+    // Create utility buttons when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      createUtilityButtons();
+    });
+  </script>
+</body>
+</html>

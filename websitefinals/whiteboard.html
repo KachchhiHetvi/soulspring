@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Spring</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div class="toolbar">
+      <div class="toolbar-section">
+        <button id="dashboard-btn" class="action-btn dashboard-btn">
+          <span class="dashboard-icon">⬅</span> Back to Dashboard
+        </button>
+      </div>
+      
+      <div class="toolbar-section">
+        <button id="select-tool" class="tool-btn">Select</button>
+        <button id="draw-tool" class="tool-btn active">Draw</button>
+        <button id="eraser-tool" class="tool-btn">Erase</button>
+      </div>
+      
+      <div class="toolbar-section">
+        <button id="text-tool" class="tool-btn">Text</button>
+        <button id="rect-tool" class="tool-btn">Rectangle</button>
+        <button id="circle-tool" class="tool-btn">Circle</button>
+      </div>
+      
+      <div class="toolbar-section">
+        <input type="color" id="color-picker" value="#000000">
+        <select id="brush-size">
+          <option value="2">Thin</option>
+          <option value="5" selected>Medium</option>
+          <option value="10">Thick</option>
+          <option value="20">Very Thick</option>
+        </select>
+      </div>
+
+      <div class="toolbar-section">
+        <input type="text" id="whiteboard-name" placeholder="Untitled Whiteboard">
+        <button id="save-btn" class="action-btn">Save</button>
+        <button id="clear-btn" class="action-btn">Clear All</button>
+        <button id="gallery-btn" class="action-btn">Gallery</button>
+      </div>
+    </div>
+    
+    <div class="canvas-container">
+      <canvas id="whiteboard"></canvas>
+    </div>
+    
+    <!-- Gallery Modal -->
+    <div id="gallery-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Your Saved Whiteboards</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="whiteboards-container"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unsaved Changes Modal -->
+    <div id="unsaved-modal" class="modal">
+      <div class="modal-content unsaved-content">
+        <div class="modal-header">
+          <h2>Unsaved Changes</h2>
+        </div>
+        <div class="modal-body">
+          <p>You have unsaved changes. What would you like to do?</p>
+          <div class="unsaved-actions">
+            <button id="save-and-exit" class="action-btn">Save and Exit</button>
+            <button id="exit-without-saving" class="action-btn warning-btn">Exit Without Saving</button>
+            <button id="cancel-exit" class="action-btn cancel-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    
+    .toolbar {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 15px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    .toolbar-section {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    
+    .tool-btn, .action-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .tool-btn {
+      background-color: #555;
+      color: white;
+    }
+    
+    .tool-btn.active {
+      background-color: #4CAF50;
+    }
+    
+    .action-btn {
+      background-color: #0f8d15;
+      color: white;
+    }
+    
+    .tool-btn:hover, .action-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .dashboard-btn {
+      background-color: #607D8B;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .dashboard-icon {
+      font-size: 14px;
+    }
+    
+    .warning-btn {
+      background-color: #f44336;
+    }
+    
+    .cancel-btn {
+      background-color: #9e9e9e;
+    }
+    
+    #color-picker {
+      width: 40px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    #brush-size {
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+    }
+
+    #whiteboard-name {
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+      width: 180px;
+    }
+    
+    .canvas-container {
+      flex: 1;
+      background-color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #whiteboard {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 800px;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+    
+    .unsaved-content {
+      max-width: 500px;
+    }
+    
+    .unsaved-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    #whiteboards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .whiteboard-item {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .whiteboard-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .whiteboard-preview {
+      width: 100%;
+      height: 150px;
+      background-color: #f9f9f9;
+      object-fit: contain;
+    }
+
+    .whiteboard-info {
+      padding: 10px;
+    }
+
+    .whiteboard-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .whiteboard-date {
+      font-size: 0.8em;
+      color: #777;
+    }
+
+    .whiteboard-actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px 10px;
+    }
+
+    .whiteboard-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+
+    .whiteboard-delete {
+      background-color: #f44336;
+    }
+
+    .whiteboard-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize the canvas
+      const canvas = new fabric.Canvas('whiteboard', {
+        isDrawingMode: true,
+      });
+      
+      // Set canvas size to fill container
+      function resizeCanvas() {
+        const container = document.querySelector('.canvas-container');
+        canvas.setWidth(container.clientWidth);
+        canvas.setHeight(container.clientHeight);
+      }
+      
+      // Initial resize and handle window resize
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      // Set up tool buttons
+      const tools = {
+        select: document.getElementById('select-tool'),
+        draw: document.getElementById('draw-tool'),
+        eraser: document.getElementById('eraser-tool'),
+        text: document.getElementById('text-tool'),
+        rect: document.getElementById('rect-tool'),
+        circle: document.getElementById('circle-tool')
+      };
+      
+      // Set up action buttons
+      const clearBtn = document.getElementById('clear-btn');
+      const saveBtn = document.getElementById('save-btn');
+      const galleryBtn = document.getElementById('gallery-btn');
+      const dashboardBtn = document.getElementById('dashboard-btn');
+      const whiteboardNameInput = document.getElementById('whiteboard-name');
+      
+      // Set up modal elements
+      const galleryModal = document.getElementById('gallery-modal');
+      const unsavedModal = document.getElementById('unsaved-modal');
+      const closeModalBtn = document.querySelector('.close');
+      const whiteboardsContainer = document.getElementById('whiteboards-container');
+      
+      // Set up unsaved changes modal buttons
+      const saveAndExitBtn = document.getElementById('save-and-exit');
+      const exitWithoutSavingBtn = document.getElementById('exit-without-saving');
+      const cancelExitBtn = document.getElementById('cancel-exit');
+      
+      // Set up drawing properties
+      const colorPicker = document.getElementById('color-picker');
+      const brushSize = document.getElementById('brush-size');
+      
+      // State variables
+      let currentTool = 'draw';
+      let isDrawing = false;
+      let startX, startY;
+      let tempShape = null;
+      let currentWhiteboardId = null;
+      let hasUnsavedChanges = false;
+      let lastSavedState = null;
+      
+      // Dashboard URL - Change this to your actual dashboard path
+      const dashboardUrl = '/home';
+      
+      // Initialize drawing brush
+      const pencilBrush = new fabric.PencilBrush(canvas);
+      canvas.freeDrawingBrush = pencilBrush;
+      canvas.freeDrawingBrush.color = colorPicker.value;
+      canvas.freeDrawingBrush.width = parseInt(brushSize.value);
+      
+      // Tool selection
+      function setActiveTool(toolName) {
+        // Reset all tool buttons
+        for (const [name, button] of Object.entries(tools)) {
+          button.classList.remove('active');
+        }
+        
+        // Set active tool
+        tools[toolName].classList.add('active');
+        currentTool = toolName;
+        
+        // Configure canvas based on selected tool
+        switch (toolName) {
+          case 'select':
+            canvas.isDrawingMode = false;
+            canvas.selection = true;
+            canvas.defaultCursor = 'default';
+            break;
+            
+          case 'draw':
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush = pencilBrush;
+            canvas.freeDrawingBrush.color = colorPicker.value;
+            canvas.freeDrawingBrush.width = parseInt(brushSize.value);
+            canvas.defaultCursor = 'crosshair';
+            break;
+            
+          case 'eraser':
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+            canvas.freeDrawingBrush.color = '#ffffff';
+            canvas.freeDrawingBrush.width = parseInt(brushSize.value) * 2;
+            canvas.defaultCursor = 'cell';
+            break;
+            
+          case 'text':
+            canvas.isDrawingMode = false;
+            canvas.defaultCursor = 'text';
+            canvas.selection = false;
+            break;
+            
+          case 'rect':
+          case 'circle':
+            canvas.isDrawingMode = false;
+            canvas.selection = false;
+            canvas.defaultCursor = 'crosshair';
+            break;
+        }
+      }
+      
+      // Set up event handlers for tool buttons
+      for (const [name, button] of Object.entries(tools)) {
+        button.addEventListener('click', () => setActiveTool(name));
+      }
+      
+      // Drawing property change handlers
+      colorPicker.addEventListener('change', function() {
+        if (currentTool === 'draw') {
+          canvas.freeDrawingBrush.color = colorPicker.value;
+        }
+        
+        // If there's a selected object, change its color
+        const activeObject = canvas.getActiveObject();
+        if (activeObject) {
+          if (activeObject.type === 'i-text') {
+            activeObject.set('fill', colorPicker.value);
+          } else {
+            activeObject.set('stroke', colorPicker.value);
+            if (activeObject.fill && activeObject.fill !== 'transparent') {
+              activeObject.set('fill', colorPicker.value);
+            }
+          }
+          canvas.renderAll();
+        }
+      });
+      
+      brushSize.addEventListener('change', function() {
+        canvas.freeDrawingBrush.width = parseInt(brushSize.value);
+        
+        // If eraser, make it bigger
+        if (currentTool === 'eraser') {
+          canvas.freeDrawingBrush.width = parseInt(brushSize.value) * 2;
+        }
+      });
+      
+      // Track changes on canvas
+      canvas.on('object:added', function() {
+        hasUnsavedChanges = true;
+      });
+      
+      canvas.on('object:modified', function() {
+        hasUnsavedChanges = true;
+      });
+      
+      canvas.on('object:removed', function() {
+        hasUnsavedChanges = true;
+      });
+      
+      // Clear canvas
+      clearBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear the whiteboard?')) {
+          canvas.clear();
+          // Reset current whiteboard ID and name when clearing
+          currentWhiteboardId = null;
+          whiteboardNameInput.value = '';
+          hasUnsavedChanges = true;
+        }
+      });
+
+      // Save canvas
+      saveBtn.addEventListener('click', function() {
+        saveWhiteboard();
+        hasUnsavedChanges = false;
+        lastSavedState = JSON.stringify(canvas);
+      });
+
+      // Show gallery
+      galleryBtn.addEventListener('click', function() {
+        openGallery();
+      });
+      
+      // Dashboard button click handler
+      dashboardBtn.addEventListener('click', function() {
+        if (hasUnsavedChanges) {
+          // Show unsaved changes modal
+          unsavedModal.style.display = 'block';
+        } else {
+          // Go directly to dashboard
+          goToDashboard();
+        }
+      });
+      
+      // Unsaved changes modal handlers
+      saveAndExitBtn.addEventListener('click', function() {
+        saveWhiteboard();
+        goToDashboard();
+      });
+      
+      exitWithoutSavingBtn.addEventListener('click', function() {
+        goToDashboard();
+      });
+      
+      cancelExitBtn.addEventListener('click', function() {
+        unsavedModal.style.display = 'none';
+      });
+
+      // Close modal
+      closeModalBtn.addEventListener('click', function() {
+        galleryModal.style.display = 'none';
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target === galleryModal) {
+          galleryModal.style.display = 'none';
+        }
+        if (event.target === unsavedModal) {
+          unsavedModal.style.display = 'none';
+        }
+      });
+      
+      // Go to dashboard function
+      function goToDashboard() {
+        // Redirect to home.html
+         window.location.href = 'home.html';
+      }
+      
+      // Canvas mouse event handlers
+      canvas.on('mouse:down', function(options) {
+        isDrawing = true;
+        const pointer = canvas.getPointer(options.e);
+        startX = pointer.x;
+        startY = pointer.y;
+        
+        if (currentTool === 'text') {
+          addText(startX, startY);
+          setActiveTool('select');
+        } else if (currentTool === 'rect' || currentTool === 'circle') {
+          // Start shape creation
+          if (currentTool === 'rect') {
+            tempShape = new fabric.Rect({
+              left: startX,
+              top: startY,
+              width: 0,
+              height: 0,
+              stroke: colorPicker.value,
+              strokeWidth: parseInt(brushSize.value) / 2,
+              fill: 'transparent'
+            });
+          } else { // circle
+            tempShape = new fabric.Circle({
+              left: startX,
+              top: startY,
+              radius: 0,
+              stroke: colorPicker.value,
+              strokeWidth: parseInt(brushSize.value) / 2,
+              fill: 'transparent'
+            });
+          }
+          
+          canvas.add(tempShape);
+        }
+      });
+      
+      canvas.on('mouse:move', function(options) {
+        if (!isDrawing) return;
+        
+        if ((currentTool === 'rect' || currentTool === 'circle') && tempShape) {
+          const pointer = canvas.getPointer(options.e);
+          
+          if (currentTool === 'rect') {
+            const width = Math.abs(pointer.x - startX);
+            const height = Math.abs(pointer.y - startY);
+            
+            tempShape.set({
+              left: Math.min(startX, pointer.x),
+              top: Math.min(startY, pointer.y),
+              width: width,
+              height: height
+            });
+          } else { // circle
+            const radius = Math.sqrt(
+              Math.pow(pointer.x - startX, 2) + 
+              Math.pow(pointer.y - startY, 2)
+            ) / 2;
+            
+            const centerX = (startX + pointer.x) / 2;
+            const centerY = (startY + pointer.y) / 2;
+            
+            tempShape.set({
+              left: centerX - radius,
+              top: centerY - radius,
+              radius: radius
+            });
+          }
+          
+          canvas.renderAll();
+        }
+      });
+      
+      canvas.on('mouse:up', function() {
+        isDrawing = false;
+        
+        if ((currentTool === 'rect' || currentTool === 'circle') && tempShape) {
+          // Finish shape creation
+          canvas.setActiveObject(tempShape);
+          tempShape = null;
+          setActiveTool('select');
+        }
+      });
+      
+      // Text tool function
+      function addText(x, y) {
+        const text = new fabric.IText('Edit this text', {
+          left: x,
+          top: y,
+          fontFamily: 'Arial',
+          fontSize: parseInt(brushSize.value) * 3,
+          fill: colorPicker.value
+        });
+        
+        canvas.add(text);
+        canvas.setActiveObject(text);
+        text.enterEditing();
+        text.selectAll();
+      }
+
+      // Storage functions
+      function getWhiteboards() {
+        const whiteboards = localStorage.getItem('whiteboards');
+        return whiteboards ? JSON.parse(whiteboards) : [];
+      }
+
+      function saveWhiteboard() {
+        const name = whiteboardNameInput.value.trim() || 'Untitled Whiteboard';
+        const dataURL = canvas.toDataURL({
+          format: 'png',
+          quality: 1
+        });
+        
+        const whiteboards = getWhiteboards();
+        const date = new Date().toISOString();
+        
+        if (currentWhiteboardId) {
+          // Update existing whiteboard
+          const index = whiteboards.findIndex(wb => wb.id === currentWhiteboardId);
+          if (index !== -1) {
+            whiteboards[index] = {
+              ...whiteboards[index],
+              name,
+              dataURL,
+              updatedAt: date
+            };
+          }
+        } else {
+          // Create new whiteboard
+          const id = 'wb_' + Date.now();
+          currentWhiteboardId = id;
+          whiteboards.push({
+            id,
+            name,
+            dataURL,
+            createdAt: date,
+            updatedAt: date
+          });
+        }
+        
+        localStorage.setItem('whiteboards', JSON.stringify(whiteboards));
+        alert(`Whiteboard "${name}" saved successfully!`);
+        hasUnsavedChanges = false;
+      }
+
+      function deleteWhiteboard(id) {
+        if (confirm('Are you sure you want to delete this whiteboard?')) {
+          let whiteboards = getWhiteboards();
+          whiteboards = whiteboards.filter(wb => wb.id !== id);
+          localStorage.setItem('whiteboards', JSON.stringify(whiteboards));
+          
+          // If current whiteboard is deleted, reset the current ID
+          if (id === currentWhiteboardId) {
+            currentWhiteboardId = null;
+            whiteboardNameInput.value = '';
+          }
+          
+          openGallery(); // Refresh gallery
+        }
+      }
+
+      function loadWhiteboard(id) {
+        const whiteboards = getWhiteboards();
+        const whiteboard = whiteboards.find(wb => wb.id === id);
+        
+        if (whiteboard) {
+          // Load the image onto the canvas
+          fabric.Image.fromURL(whiteboard.dataURL, function(img) {
+            canvas.clear();
+            
+            // If the image is larger than the canvas, scale it down
+            const canvasWidth = canvas.getWidth();
+            const canvasHeight = canvas.getHeight();
+            
+            if (img.width > canvasWidth || img.height > canvasHeight) {
+              const scale = Math.min(
+                canvasWidth / img.width,
+                canvasHeight / img.height
+              );
+              img.scale(scale);
+            }
+            
+            canvas.add(img);
+            canvas.renderAll();
+          });
+          
+          currentWhiteboardId = id;
+          whiteboardNameInput.value = whiteboard.name;
+          galleryModal.style.display = 'none';
+          
+          // Reset unsaved changes tracking
+          hasUnsavedChanges = false;
+          lastSavedState = JSON.stringify(canvas);
+        }
+      }
+
+      function openGallery() {
+        const whiteboards = getWhiteboards();
+        whiteboardsContainer.innerHTML = '';
+        
+        if (whiteboards.length === 0) {
+          whiteboardsContainer.innerHTML = '<p>No saved whiteboards yet. Create and save one!</p>';
+        } else {
+          // Sort by updated time, newest first
+          whiteboards.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+          
+          whiteboards.forEach(whiteboard => {
+            const item = document.createElement('div');
+            item.className = 'whiteboard-item';
+            
+            const formattedDate = new Date(whiteboard.updatedAt).toLocaleString();
+            
+            item.innerHTML = `
+              <img src="${whiteboard.dataURL}" class="whiteboard-preview" alt="${whiteboard.name}">
+              <div class="whiteboard-info">
+                <div class="whiteboard-name">${whiteboard.name}</div>
+                <div class="whiteboard-date">Last updated: ${formattedDate}</div>
+              </div>
+              <div class="whiteboard-actions">
+                <button class="whiteboard-btn whiteboard-load">Open</button>
+                <button class="whiteboard-btn whiteboard-delete">Delete</button>
+              </div>
+            `;
+            
+            // Add event listeners
+            item.querySelector('.whiteboard-preview').addEventListener('click', () => {
+              loadWhiteboard(whiteboard.id);
+            });
+            
+            item.querySelector('.whiteboard-load').addEventListener('click', () => {
+              loadWhiteboard(whiteboard.id);
+            });
+            
+            item.querySelector('.whiteboard-delete').addEventListener('click', () => {
+              deleteWhiteboard(whiteboard.id);
+            });
+            
+            whiteboardsContainer.appendChild(item);
+          });
+        }
+        
+        galleryModal.style.display = 'block';
+      }
+      
+      // Before unload handling (for browser refresh/close)
+      window.addEventListener('beforeunload', function(e) {
+        if (hasUnsavedChanges) {
+          // Standard text will be displayed by the browser
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        }
+      });
+      
+      // Set initial active tool
+      setActiveTool('draw');
+    });
+  </script>
+</body>
+</html>

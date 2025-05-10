@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soul Spring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            color: #474646;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            animation: fade-page 0.5s ease-in-out;
+        }
+
+
+        header {
+            background-color: #81c784;
+            width: 100%;
+            padding: 19px 0;
+            text-align: center;
+            border-bottom: 3px solid #558b2f;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: min(48px, 10vw);
+            color: #ffffff;
+            margin: 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slide-in 1s ease-in-out;
+        }
+
+        .profile-pic-container {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #eaeee9;
+            border: 2px solid #246d0d;
+            border-radius: 50%;
+            padding: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-pic-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        main {
+            margin-top: 120px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        footer a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+
+        footer a.active {
+            color: #133a07;
+        }
+
+        footer a:hover {
+            color: #0b280c;
+        }
+
+        footer i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        footer span {
+            font-size: 0.75rem;
+        }
+
+        .section-title-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #5b4283;
+            padding: 0 40px;
+        }
+        
+        .star-left, .star-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffd53e;
+            font-size: 2rem;
+        }
+        
+        .star-left {
+            left: 0;
+        }
+        
+        .star-right {
+            right: 0;
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+           background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            width:290px;
+            height: 320px;
+            box-shadow: 10px 10px 10px #083c0b;
+            transition: all 0.3s ease;
+            border: 4px solid #5b4283;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) rotate(3deg);
+            box-shadow: 0 20px 0 #051802;
+        }
+        
+        .card:nth-child(even):hover {
+            transform: translateY(-10px) rotate(-3deg);
+        }
+        
+        .card-img {
+            height: 180px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 4px solid #5b4283;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #5b4283;
+        }
+        
+        .card p {
+            color: #5b4283;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .card-button {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: #ffd84d;
+            color: #5b4283;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid #5b4283;
+            box-shadow: 0 3px 0 #5b4283;
+        }
+        
+        .card-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #5b4283;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="text-6xl font-bold">Soul Spring</h1>
+            <div id="logout-button" class="hidden">
+                <a href="#">Logout</a>
+            </div>
+  
+            <div class="profile-pic-container">
+                <label class="profile-pic-button">
+                  <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+                </label>
+              </div>
+        </div>
+    </header>
+    <main>
+        <div class="section-title-container">
+            <span class="star-left">★</span>
+            <h2 class="section-title">Soul Play ~ 'Life' Up your Inner Child </h2>
+            <span class="star-right">★</span>
+        </div>
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://img.freepik.com/premium-photo/abstract-design-with-rainbow-lights-lasers-space_863013-82320.jpg')"></div>
+                <div class="card-content">
+                    <h3>Radient Spreads</h3>
+                    <a href="radientspread.html" class="card-button">Play Now ! </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://image.winudf.com/v2/image1/Y29tLnRuYXR1cmUzLnNpbGthcnRfc2NyZWVuXzNfMTU2NzAxNjk0MF8wODA/screen-3.jpg?fakeurl=1&type=.jpg')"></div>
+                <div class="card-content">
+                    <h3>Thread Art</h3>
+                    <a href="threadart.html" class="card-button">Draw it ! </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://th.bing.com/th/id/OIP.Dy2xUL8owoYPQWZz-tlhPAHaHa?pid=ImgDet&w=178&h=178&c=7&dpr=1.5')"></div>
+                <div class="card-content">
+                    <h3>Worry Monster</h3>
+                    <a href="worrymonster.html" class="card-button">Feed Him !</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://th.bing.com/th/id/OIP.LSxDKv6_PD1TynuFqCnFWQHaE8?w=228&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7')"></div>
+                <div class="card-content">
+                    <h3>Shimmering Sand</h3>
+                    <a href="shimmeringsand.html" class="card-button">Chill Out</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://d31xsmoz1lk3y3.cloudfront.net/big/990395.jpg?v=1494628143')"></div>
+                <div class="card-content">
+                    <h3>Pixie</h3>
+                    <a href="pixi.html" class="card-button">Get pixelated ! </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/123723933/original/4a6e416f7c7d949136ec65d6e4bf1ec01cd410a6/make-a-logo-for-your-casual-game.png')"></div>
+                <div class="card-content">
+                    <h3>Bubble wrap</h3>
+                    <a href="wrap.html" class="card-button">Pop it ! </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="home.html" class="active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="journal.html">
+                <i class="fas fa-book"></i>
+                <span>Journal</span>
+            </a>
+            <a href="todolist.html">
+                <i class="fas fa-tasks"></i>
+                <span>Productivity</span>
+            </a>
+            <a href="games2.html">
+                <i class="fas fa-gamepad"></i>
+                <span>Games</span>
+            </a>
+            <a href="thoughts.html">
+                <i class="fas fa-lightbulb"></i>
+                <span>Thoughts</span>
+            </a>
+            <a href="settings.html">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        function loadProfilePicture() {
+  const profilePicElement = document.getElementById('profile-pic');
+  if (profilePicElement) {
+    const savedProfilePic = localStorage.getItem("profilePicture");
+    if (savedProfilePic) {
+      profilePicElement.src = savedProfilePic;
+    }
+  }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadProfilePicture);
+    </script>
+</body>
+</html>

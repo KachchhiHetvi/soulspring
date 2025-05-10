@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sand Simulation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #2c2c2c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    
+    canvas {
+      background-color: black;
+      cursor: pointer;
+      border: 2px solid #666;
+      border-radius: 4px;
+      margin-top: 20px;
+      display: block;
+    }
+    
+    .controls {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .color-button {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+    }
+    
+    .color-button.selected {
+      border: 2px solid yellow;
+    }
+    
+    button {
+      padding: 6px 12px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #555;
+    }
+    
+    h1 {
+      color: white;
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+    
+    p {
+      color: #ccc;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+      max-width: 600px;
+      padding: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pixi</h1>
+  <p>Click and drag on the canvas to create pixilated particles that will fall and accumulate.</p>
+  
+  <canvas id="sandCanvas" width="1200" height="400"></canvas>
+  
+  <div class="controls">
+    <div class="color-button selected" style="background-color: #f7e26b;" data-color="#f7e26b"></div>
+    <div class="color-button" style="background-color: #e85d5d;" data-color="#e85d5d"></div>
+    <div class="color-button" style="background-color: #5da4e8;" data-color="#5da4e8"></div>
+    <div class="color-button" style="background-color: #5de868;" data-color="#5de868"></div>
+    <div class="color-button" style="background-color: #e85de8;" data-color="#e85de8"></div>
+    <button id="clearBtn">Clear Canvas</button>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('sandCanvas');
+      const ctx = canvas.getContext('2d');
+      const colorButtons = document.querySelectorAll('.color-button');
+      const clearBtn = document.getElementById('clearBtn');
+      
+      // Sand particle size
+      const particleSize = 12;
+      
+      // Create grid for tracking filled positions
+      const gridWidth = Math.floor(canvas.width / particleSize);
+      const gridHeight = Math.floor(canvas.height / particleSize);
+      let grid = createEmptyGrid();
+      
+      // Current selected color
+      let currentColor = '#f7e26b';
+      
+      // Mouse tracking
+      let isMouseDown = false;
+      let lastX = -1;
+      let lastY = -1;
+      
+      // Initialize empty grid
+      function createEmptyGrid() {
+        const grid = new Array(gridWidth);
+        for (let x = 0; x < gridWidth; x++) {
+          grid[x] = new Array(gridHeight).fill(null);
+        }
+        return grid;
+      }
+      
+      // Set up color selection
+      colorButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          colorButtons.forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+          currentColor = this.getAttribute('data-color');
+        });
+      });
+      
+      // Clear canvas button
+      clearBtn.addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        grid = createEmptyGrid();
+      });
+      
+      // Mouse event handlers
+      canvas.addEventListener('mousedown', function(e) {
+        isMouseDown = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = Math.floor((e.clientX - rect.left) / particleSize);
+        lastY = Math.floor((e.clientY - rect.top) / particleSize);
+        addSand(lastX, lastY);
+      });
+      
+      canvas.addEventListener('mousemove', function(e) {
+        if (!isMouseDown) return;
+        
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor((e.clientX - rect.left) / particleSize);
+        const y = Math.floor((e.clientY - rect.top) / particleSize);
+        
+        addSand(x, y);
+        lastX = x;
+        lastY = y;
+      });
+      
+      window.addEventListener('mouseup', function() {
+        isMouseDown = false;
+        lastX = -1;
+        lastY = -1;
+      });
+      
+      // Add sand at position
+      function addSand(x, y) {
+        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight) return;
+        
+        if (!grid[x][y]) {
+          grid[x][y] = {
+            color: currentColor,
+            settled: false,
+            velocityY: 0,
+            velocityX: (Math.random() - 0.5) * 0.5 // Random horizontal movement
+          };
+          
+          drawParticle(x, y, currentColor);
+        }
+      }
+      
+      // Draw a particle on the canvas
+      function drawParticle(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x * particleSize, y * particleSize, particleSize, particleSize);
+      }
+      
+      // Clear a particle from the canvas
+      function clearParticle(x, y) {
+        ctx.clearRect(x * particleSize, y * particleSize, particleSize, particleSize);
+      }
+      
+      // Main simulation loop
+      function update() {
+        for (let x = 0; x < gridWidth; x++) {
+          for (let y = gridHeight - 1; y >= 0; y--) {
+            if (!grid[x][y] || grid[x][y].settled) continue;
+            
+            const particle = grid[x][y];
+            
+            // Apply gravity more strongly
+            if (y + 1 < gridHeight && !grid[x][y + 1]) {
+              clearParticle(x, y);
+              grid[x][y] = null;
+              grid[x][y + 1] = { 
+                color: particle.color, 
+                settled: false, 
+                velocityY: Math.min(particle.velocityY + 100,105), // Increase fall speed
+                velocityX: (Math.random() - 0.5) * 1 // Random horizontal movement
+              };
+              drawParticle(x, y + 1, particle.color);
+            } 
+            // Check if can fall diagonally
+            else if (y + 1 < gridHeight) {
+              let moved = false;
+              const direction = Math.random() > 0.5 ? 1 : -1;
+
+              // Try to move left or right
+              for (let i = 0; i < 2; i++) {
+                const dx = i === 0 ? direction : -direction;
+
+                if (x + dx >= 0 && x + dx < gridWidth && !grid[x + dx][y + 1]) {
+                  clearParticle(x, y);
+                  grid[x][y] = null;
+                  grid[x + dx][y + 1] = { 
+                    color: particle.color, 
+                    settled: false, 
+                    velocityY: Math.min(particle.velocityY + 0.3, 5), // Increase fall speed
+                    velocityX: (Math.random() - 0.5) * 0.5 // Random horizontal movement
+                  };
+                  drawParticle(x + dx, y + 1, particle.color);
+                  moved = true;
+                  break;
+                }
+              }
+
+              // Mark as settled if it couldn't move
+              if (!moved) {
+                particle.settled = true;
+              }
+            } else {
+              // Mark as settled if at bottom
+              particle.settled = true;
+            }
+          }
+        }
+
+        // Unsettle particles above unsettled ones
+        for (let x = 0; x < gridWidth; x++) {
+          for (let y = gridHeight - 2; y >= 0; y--) {
+            if (grid[x][y] && grid[x][y].settled) {
+              const below = grid[x][y + 1];
+              if (below && !below.settled) {
+                grid[x][y].settled = false;
+              }
+            }
+          }
+        }
+
+        // Smoothly move particles down
+        for (let x = 0; x < gridWidth; x++) {
+          for (let y = gridHeight - 1; y >= 0; y--) {
+            if (grid[x][y] && !grid[x][y].settled) {
+              const particle = grid[x][y];
+              // Apply horizontal movement
+              const newX = Math.round(x + particle.velocityX);
+              if (newX >= 0 && newX < gridWidth && !grid[newX][y + 1]) {
+                clearParticle(x, y);
+                grid[x][y] = null;
+                grid[newX][y] = { 
+                  color: particle.color, 
+                  settled: false, 
+                  velocityY: Math.min(particle.velocityY + 1000, 1050), // Increase fall speed
+                  velocityX: (Math.random() - 0.5) * 1 // Random horizontal movement
+                };
+                drawParticle(newX, y, particle.color);
+              }
+            }
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      // Start the simulation
+      update();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Spring</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+        color: #474646;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        line-height: 1.6;
+        animation: fade-page 0.5s ease-in-out;
+    }
+    
+    
+    header {
+        background-color: #81c784;
+        width: 100%;
+        padding: 15px 0;
+        text-align: center;
+        border-bottom: 3px solid #558b2f;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: min(48px, 10vw);
+            color: #ffffff;
+            margin: 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slide-in 1s ease-in-out;
+        }
+
+        .profile-pic-container {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #eaeee9;
+            border: 2px solid #246d0d;
+            border-radius: 50%;
+            padding: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-pic-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }  
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 0;
+            }
+
+            .header-container {
+                flex-direction: column;
+            }
+            .profile-pic-container {
+                position: absolute;
+                top: 15px;
+                right: 110px;
+            }
+
+            .profile-pic {
+                width: 35px;
+                height: 35px;
+            }
+
+            main {
+                margin-top: 100px;
+            }
+        }
+
+        main {
+            margin-top: 99px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        footer a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+
+        footer a.active {
+            color: #246d0d;
+        }
+
+        footer a:hover {
+            color: #0b280c;
+        }
+
+        footer i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        footer span {
+            font-size: 0.75rem;
+        }
+    
+    .box {
+      background-color: rgba(255, 255, 255, 0.884);
+      border-radius: 10px;
+      box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.651);
+      padding: 1.5rem;
+      height: 400px;
+      overflow: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+    
+    .box.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .box-title {
+      color: #2c2f50;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .box-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: white;
+    }
+    
+    /* Todo List Styles */
+    .todo-icon {
+      background-color: #3498db;
+    }
+    
+    .todo-input {
+      display: flex;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+    
+    .todo-input input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    
+    .todo-input button {
+      padding: 0.75rem 1rem;
+      background-color: #1d7716;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .todo-input button:hover {
+      background-color: #18540f;
+    }
+    
+    .todo-list {
+      list-style: none;
+    }
+    
+    .todo-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .todo-item:last-child {
+      border-bottom: none;
+    }
+    
+    .todo-checkbox {
+      margin-right: 0.75rem;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    
+    .todo-text {
+      flex: 1;
+      font-size: 0.99rem;
+      color: #34495e;
+      transition: text-decoration 0.3s;
+    }
+    
+    .completed .todo-text {
+      text-decoration: line-through;
+      color: #95a5a6;
+    }
+    
+    .todo-delete {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .todo-item:hover .todo-delete {
+      opacity: 1;
+    }
+    
+    /* Calendar Styles */
+    .calendar-icon {
+      background-color: #9b59b6;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .calendar-month {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #34495e;
+    }
+    
+    .calendar-nav button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: #7f8c8d;
+      transition: color 0.3s;
+    }
+    
+    .calendar-nav button:hover {
+      color: #34495e;
+    }
+    
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: 600;
+      color: #7f8c8d;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+    
+    .calendar-day {
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .calendar-day:hover {
+      background-color: #f1f2f6;
+    }
+    
+    .current-day {
+      background-color: #9b59b6;
+      color: white;
+    }
+    
+    .other-month {
+      color: #bdc3c7;
+    }
+    
+    /* Timer Styles */
+    .timer-icon {
+      background-color: #e74c3c;
+    }
+    
+    .timer-display {
+      font-size: 4rem;
+      font-weight: 300;
+      color: #34495e;
+      text-align: center;
+      margin: 2rem 0;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .timer-button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .start-button {
+      background-color: #2ecc71;
+    }
+    
+    .start-button:hover {
+      background-color: #27ae60;
+    }
+    
+    .pause-button {
+      background-color: #f39c12;
+    }
+    
+    .pause-button:hover {
+      background-color: #d35400;
+    }
+    
+    .reset-button {
+      background-color: #e74c3c;
+    }
+    
+    .reset-button:hover {
+      background-color: #c0392b;
+    }
+    
+    /* Habit Tracker Styles */
+    .habit-icon {
+      background-color: #1abc9c;
+    }
+    
+    .habit-input {
+      display: flex;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+    
+    .habit-input input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    
+    .habit-input button {
+      padding: 0.75rem 1rem;
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .habit-input button:hover {
+      background-color: #16a085;
+    }
+    
+    .habit-list {
+      list-style: none;
+    }
+    
+    .habit-item {
+      margin-bottom: 1.5rem;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .habit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .habit-name {
+      font-weight: 600;
+      color: #34495e;
+      font-size: 0.95rem;
+    }
+    
+    .habit-delete {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    
+    .habit-delete:hover {
+      opacity: 1;
+    }
+    
+    .habit-tracker {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+    
+    .habit-day {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #95a5a6;
+      transition: all 0.3s;
+    }
+    
+    .habit-day:hover {
+      transform: scale(1.1);
+      border-color: #1abc9c;
+    }
+    
+    .habit-day.completed {
+      background-color: #1abc9c;
+      border-color: #1abc9c;
+      color: white;
+    }
+    
+    .habit-progress {
+      height: 6px;
+      background-color: #ecf0f1;
+      border-radius: 3px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .habit-progress-bar {
+      height: 100%;
+      background-color: #1abc9c;
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.5s ease-out;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    .pulse {
+      animation: pulse 1s infinite;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1 class="text-6xl font-bold">Soul Spring</h1>
+            <div class="profile-pic-container">
+              <label class="profile-pic-button">
+                <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+              </label>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 pb-20">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-green-900 mb-6">Stay Productive</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-9">
+                <!-- To-Do List Section -->
+      <div class="box" id="todo-box">
+        <div class="box-header">
+          <div class="box-title">
+            <div class="box-icon todo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </div>
+            To-Do List
+          </div>
+        </div>
+        
+        <div class="todo-input">
+          <input type="text" id="new-task" placeholder="Add a new task...">
+          <button id="add-task">Add</button>
+        </div>
+        
+        <ul class="todo-list" id="todo-list">
+          <!-- Tasks will be added here by JavaScript -->
+        </ul>
+      </div>
+      
+      <!-- Calendar -->
+      <div class="box" id="calendar-box">
+        <div class="box-header">
+          <div class="box-title">
+            <div class="box-icon calendar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+              </svg>
+            </div>
+            Calendar
+          </div>
+        </div>
+        
+        <div class="calendar-header">
+          <div class="calendar-month" id="current-month">April 2025</div>
+          <div class="calendar-nav">
+            <button id="prev-month">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </button>
+            <button id="next-month">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="calendar-weekdays">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        
+        <div class="calendar-days" id="calendar-days">
+          <!-- Calendar days will be added here by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- Timer -->
+      <div class="box" id="timer-box">
+        <div class="box-header">
+          <div class="box-title">
+            <div class="box-icon timer-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+              </svg>
+            </div>
+            Timer
+          </div>
+        </div>
+        
+        <div class="timer-display" id="timer-display">00:00:00</div>
+        
+        <div class="timer-controls">
+          <button class="timer-button start-button" id="start-timer">Start</button>
+          <button class="timer-button pause-button" id="pause-timer">Pause</button>
+          <button class="timer-button reset-button" id="reset-timer">Reset</button>
+        </div>
+      </div>
+      
+      <!-- Habit Tracker -->
+      <div class="box" id="habit-box">
+        <div class="box-header">
+          <div class="box-title">
+            <div class="box-icon habit-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+              </svg>
+            </div>
+            21-Day Habit Tracker
+          </div>
+        </div>
+        
+        <div class="habit-input">
+          <input type="text" id="new-habit" placeholder="Add a new habit to track...">
+          <button id="add-habit">Add</button>
+        </div>
+        
+        <ul class="habit-list" id="habit-list">
+          <!-- Habits will be added here by JavaScript -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer class="fixed bottom-0 w-full bg-white shadow-lg">
+    <nav class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-home text-l"></i>
+            <span class="text-xs mt-1">Home</span>
+        </a>
+        <a href="journal.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-book text-l"></i>
+            <span class="text-xs mt-1">Journal</span>
+        </a>
+        <a href="todolist.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-tasks text-l"></i>
+            <span class="text-xs mt-1">Productivity</span>
+        </a>
+        <a href="games2.html">
+          <i class="fas fa-gamepad text-l"></i>
+          <span class="text-xs mt-1">Games</span>
+        </a>
+        <a href="thoughts.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-lightbulb text-l"></i>
+            <span class="text-xs mt-1">Thoughts</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+            <i class="fas fa-cog text-l"></i>
+            <span class="text-xs mt-1">Settings</span>
+        </a>
+    </nav>
+</footer>
+
+  
+  <script>
+    
+    // Animate boxes on scroll
+    function animateBoxes() {
+      const boxes = document.querySelectorAll('.box');
+      boxes.forEach((box, index) => {
+        setTimeout(() => {
+          box.classList.add('appear');
+        }, 200 * index);
+      });
+    }
+    
+    // Run animation after page load
+    window.addEventListener('DOMContentLoaded', animateBoxes);
+    
+    // To-Do List Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const newTaskInput = document.getElementById('new-task');
+      const addTaskBtn = document.getElementById('add-task');
+      const todoList = document.getElementById('todo-list');
+      
+      // Load tasks from localStorage
+      const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      
+      savedTasks.forEach(task => {
+        createTaskElement(task.text, task.completed);
+      });
+      
+      addTaskBtn.addEventListener('click', addTask);
+      newTaskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addTask();
+        }
+      });
+      
+      function addTask() {
+        const taskText = newTaskInput.value.trim();
+        if (taskText) {
+          createTaskElement(taskText, false);
+          
+          // Save to localStorage
+          savedTasks.push({ text: taskText, completed: false });
+          localStorage.setItem('tasks', JSON.stringify(savedTasks));
+          
+          newTaskInput.value = '';
+        }
+      }
+      
+      function createTaskElement(text, completed) {
+        const li = document.createElement('li');
+        li.className = 'todo-item';
+        if (completed) {
+          li.classList.add('completed');
+        }
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'todo-checkbox';
+        checkbox.checked = completed;
+        
+        const span = document.createElement('span');
+        span.className = 'todo-text';
+        span.textContent = text;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'todo-delete';
+        deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
+        
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
+        
+        // Event listeners
+        checkbox.addEventListener('change', function() {
+          li.classList.toggle('completed');
+          
+          // Update localStorage
+          const taskIndex = Array.from(todoList.children).indexOf(li);
+          savedTasks[taskIndex].completed = checkbox.checked;
+          localStorage.setItem('tasks', JSON.stringify(savedTasks));
+        });
+        
+        deleteBtn.addEventListener('click', function() {
+          li.style.animation = 'slideIn 0.3s reverse';
+          setTimeout(() => {
+            li.remove();
+            
+            // Update localStorage
+            const taskIndex = Array.from(todoList.children).indexOf(li);
+            savedTasks.splice(taskIndex, 1);
+            localStorage.setItem('tasks', JSON.stringify(savedTasks));
+          }, 300);
+        });
+      }
+    });
+    
+    // Calendar Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const calendarDays = document.getElementById('calendar-days');
+      const currentMonthElement = document.getElementById('current-month');
+      const prevMonthBtn = document.getElementById('prev-month');
+      const nextMonthBtn = document.getElementById('next-month');
+      
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth();
+      let currentYear = currentDate.getFullYear();
+      
+      function updateCalendar() {
+        // Update month display
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        
+        // Clear calendar
+        calendarDays.innerHTML = '';
+        
+        // Get first day of month and last day of month
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        // Get last date of previous month
+        const prevMonthLastDate = new Date(currentYear, currentMonth, 0).getDate();
+        
+        // Add previous month's days
+        for (let i = firstDay - 1; i >= 0; i--) {
+          const day = document.createElement('div');
+          day.className = 'calendar-day other-month';
+          day.textContent = prevMonthLastDate - i;
+          calendarDays.appendChild(day);
+        }
+        
+        // Add current month's days
+        const today = new Date();
+        for (let i = 1; i <= lastDate; i++) {
+          const day = document.createElement('div');
+          day.className = 'calendar-day';
+          day.textContent = i;
+          
+          // Highlight current day
+          if (i === today.getDate() && 
+              currentMonth === today.getMonth() && 
+              currentYear === today.getFullYear()) {
+            day.classList.add('current-day');
+          }
+          
+          day.addEventListener('click', () => {
+            // Remove current-day class from all days
+            document.querySelectorAll('.calendar-day').forEach(d => {
+              if (!d.classList.contains('other-month')) {
+                d.classList.remove('current-day');
+              }
+            });
+            
+            // Add current-day class to clicked day
+            if (!day.classList.contains('other-month')) {
+              day.classList.add('current-day');
+            }
+          });
+          
+          calendarDays.appendChild(day);
+        }
+        
+        // Calculate total number of days needed (42 for a full calendar)
+        const totalCells = 42;
+        const remainingCells = totalCells - (firstDay + lastDate);
+        
+        // Add next month's days
+        for (let i = 1; i <= remainingCells; i++) {
+          const day = document.createElement('div');
+          day.className = 'calendar-day other-month';
+          day.textContent = i;
+          calendarDays.appendChild(day);
+        }
+      }
+      
+      // Initial calendar update
+      updateCalendar();
+      
+        // Previous month button
+      prevMonthBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        updateCalendar();
+      });
+      
+      // Next month button
+      nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        updateCalendar();
+      });
+    });
+    
+    // Timer Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const timerDisplay = document.getElementById('timer-display');
+      const startBtn = document.getElementById('start-timer');
+      const pauseBtn = document.getElementById('pause-timer');
+      const resetBtn = document.getElementById('reset-timer');
+      
+      let startTime;
+      let elapsedTime = 0;
+      let timerInterval;
+      
+      function startTimer() {
+        startTime = Date.now() - elapsedTime;
+        
+        timerInterval = setInterval(() => {
+          elapsedTime = Date.now() - startTime;
+          timerDisplay.textContent = formatTime(elapsedTime);
+        }, 10);
+        
+        startBtn.disabled = true;
+        pauseBtn.disabled = false;
+      }
+      
+      function formatTime(milliseconds) {
+        let hours = Math.floor(milliseconds / 3600000);
+        let minutes = Math.floor((milliseconds % 3600000) / 60000);
+        let seconds = Math.floor((milliseconds % 60000) / 1000);
+        
+        return (
+          (hours < 10 ? '0' + hours : hours) + ':' +
+          (minutes < 10 ? '0' + minutes : minutes) + ':' +
+          (seconds < 10 ? '0' + seconds : seconds)
+        );
+      }
+      
+      function pauseTimer() {
+        clearInterval(timerInterval);
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+      }
+      
+      function resetTimer() {
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        timerDisplay.textContent = '00:00:00';
+        startBtn.disabled = false;
+        pauseBtn.disabled = false;
+      }
+      
+      startBtn.addEventListener('click', startTimer);
+      pauseBtn.addEventListener('click', pauseTimer);
+      resetBtn.addEventListener('click', resetTimer);
+    });
+    
+    // Habit Tracker Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const habitInput = document.getElementById('new-habit');
+      const addHabitBtn = document.getElementById('add-habit');
+      const habitList = document.getElementById('habit-list');
+      
+      // Load habits from localStorage
+      const savedHabits = JSON.parse(localStorage.getItem('habits')) || [];
+      
+      // Initialize habit data
+      savedHabits.forEach(habit => {
+        createHabitElement(habit.name, habit.days);
+      });
+      
+      addHabitBtn.addEventListener('click', addHabit);
+      habitInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addHabit();
+        }
+      });
+      
+      function addHabit() {
+        const habitName = habitInput.value.trim();
+        if (habitName) {
+          // Create empty days array (21 days)
+          const days = Array(21).fill(false);
+          
+          createHabitElement(habitName, days);
+          
+          // Save to localStorage
+          savedHabits.push({ name: habitName, days: days });
+          localStorage.setItem('habits', JSON.stringify(savedHabits));
+          
+          habitInput.value = '';
+        }
+      }
+      
+      function createHabitElement(name, days) {
+        const li = document.createElement('li');
+        li.className = 'habit-item';
+        
+        const header = document.createElement('div');
+        header.className = 'habit-header';
+        
+        const habitName = document.createElement('div');
+        habitName.className = 'habit-name';
+        habitName.textContent = name;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'habit-delete';
+        deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
+        
+        header.appendChild(habitName);
+        header.appendChild(deleteBtn);
+        
+        const tracker = document.createElement('div');
+        tracker.className = 'habit-tracker';
+        
+        // Create 21 day circles
+        days.forEach((completed, index) => {
+          const day = document.createElement('div');
+          day.className = 'habit-day';
+          day.textContent = index + 1;
+          
+          if (completed) {
+            day.classList.add('completed');
+          }
+          
+          day.addEventListener('click', () => {
+            day.classList.toggle('completed');
+            
+            // Update localStorage
+            const habitIndex = Array.from(habitList.children).indexOf(li);
+            savedHabits[habitIndex].days[index] = day.classList.contains('completed');
+            localStorage.setItem('habits', JSON.stringify(savedHabits));
+            
+            updateProgressBar();
+          });
+          
+          tracker.appendChild(day);
+        });
+        
+        const progress = document.createElement('div');
+        progress.className = 'habit-progress';
+        
+        const progressBar = document.createElement('div');
+        progressBar.className = 'habit-progress-bar';
+        progress.appendChild(progressBar);
+        
+        li.appendChild(header);
+        li.appendChild(tracker);
+        li.appendChild(progress);
+        habitList.appendChild(li);
+        
+        updateProgressBar();
+        
+        function updateProgressBar() {
+          const completedDays = tracker.querySelectorAll('.habit-day.completed').length;
+          const percentage = (completedDays / 21) * 100;
+          progressBar.style.width = `${percentage}%`;
+        }
+        
+        // Delete habit
+        deleteBtn.addEventListener('click', function() {
+          li.style.animation = 'slideIn 0.3s reverse';
+          setTimeout(() => {
+            li.remove();
+            
+            // Update localStorage
+            const habitIndex = Array.from(habitList.children).indexOf(li);
+            savedHabits.splice(habitIndex, 1);
+            localStorage.setItem('habits', JSON.stringify(savedHabits));
+          }, 300);
+        });
+      }
+    });
+
+    function loadProfilePicture() {
+  const profilePicElement = document.getElementById('profile-pic');
+  if (profilePicElement) {
+    const savedProfilePic = localStorage.getItem("profilePicture");
+    if (savedProfilePic) {
+      profilePicElement.src = savedProfilePic;
+    }
+  }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadProfilePicture);
+  </script>
+</body>
+</html>

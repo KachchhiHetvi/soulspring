@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Meditation Bubble</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0a1a14;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .title {
+            color: #e0f5e9;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(114, 199, 155, 0.6);
+            letter-spacing: 1px;
+        }
+        
+        .meditation-bubble {
+            width: 100%;
+            max-height: 80vh;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(31, 57, 47, 0.7);
+            color: #e0f5e9;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(62, 121, 97, 0.9);
+            box-shadow: 0 0 10px rgba(114, 199, 155, 0.6);
+        }
+        
+        .back-button svg {
+            margin-right: 6px;
+        }
+        
+        @media (max-width: 600px) {
+            .title {
+                font-size: 22px;
+            }
+            .instructions {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="home.html" class="back-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+        
+        <h1 class="title">Breathing Meditation</h1>
+        
+        <svg class="meditation-bubble" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Enhanced green gradient for main bubble -->
+                <radialGradient id="bubbleGradient" cx="50%" cy="50%" r="50%" fx="45%" fy="45%">
+                    <stop offset="0%" stop-color="#E0FFE7" stop-opacity="0.85"/>
+                    <stop offset="40%" stop-color="#9BDEBC" stop-opacity="0.8"/>
+                    <stop offset="70%" stop-color="#42A17B" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#174D3C" stop-opacity="0.7"/>
+                </radialGradient>
+                
+                <!-- Secondary complementary gradient -->
+                <radialGradient id="complementaryGradient" cx="50%" cy="50%" r="50%" fx="40%" fy="40%">
+                    <stop offset="0%" stop-color="#F0FFF0" stop-opacity="0.4"/>
+                    <stop offset="60%" stop-color="#9BD3DE" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#497A99" stop-opacity="0.2"/>
+                </radialGradient>
+                
+                <!-- Enhanced glow effect -->
+                <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="12" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+                
+                <filter id="particleGlow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+                
+                <!-- Text glow effect -->
+                <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+            </defs>
+            
+            <!-- Background -->
+            <rect width="400" height="400" fill="#0A1A14" />
+            
+            <!-- Soft background pattern -->
+            <path d="M0,400 C100,350 200,380 300,320 C350,290 400,350 400,400 Z" fill="#0E2D1F" opacity="0.6" />
+            <path d="M0,400 C120,320 240,350 350,290 C380,270 400,320 400,400 Z" fill="#0D241A" opacity="0.5" />
+            
+            <!-- Animated background particles -->
+            <g id="particles">
+                <circle cx="100" cy="100" r="3" fill="#B4E7CB" opacity="0.6" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.2;0.7;0.2" dur="7s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="100;85;100" dur="6s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="300" cy="150" r="2.5" fill="#8CD3E6" opacity="0.5" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="cx" values="300;315;300" dur="7s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="150" cy="270" r="3" fill="#A8D8C0" opacity="0.7" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="270;255;270" dur="8s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="250" cy="200" r="2" fill="#D0F0E0" opacity="0.6" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="7s" repeatCount="indefinite"/>
+                    <animate attributeName="cx" values="250;235;250" dur="9s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="180" cy="320" r="3.5" fill="#7AC6D6" opacity="0.5" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="320;335;320" dur="7s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="90" cy="230" r="2.5" fill="#C6EFDB" opacity="0.6" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="cx" values="90;80;90" dur="8s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="330" cy="280" r="3" fill="#90C5A9" opacity="0.7" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="9s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="280;295;280" dur="7s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="230" cy="90" r="2" fill="#E0F5E9" opacity="0.5" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="7s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="90;75;90" dur="8s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="50" cy="180" r="2.5" fill="#9BDEBC" opacity="0.6" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="180;165;180" dur="7s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="350" cy="120" r="2" fill="#8ACBD0" opacity="0.5" filter="url(#particleGlow)">
+                    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="cx" values="350;335;350" dur="9s" repeatCount="indefinite"/>
+                </circle>
+            </g>
+        
+            <!-- Decorative circles around main bubble -->
+            <circle cx="200" cy="200" r="140" fill="none" stroke="#54B389" stroke-width="0.6" opacity="0.15">
+                <animate attributeName="r" values="140;160;140" dur="8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.1;0.3;0.1" dur="8s" repeatCount="indefinite" />
+            </circle>
+            
+            <circle cx="200" cy="200" r="160" fill="none" stroke="#6ABCA0" stroke-width="0.4" opacity="0.1">
+                <animate attributeName="r" values="160;180;160" dur="8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.05;0.2;0.05" dur="8s" repeatCount="indefinite" />
+            </circle>
+            
+            <!-- Complementary decorative elements -->
+            <path d="M200,260 C240,260 270,240 290,200 C270,160 240,140 200,140 C160,140 130,160 110,200 C130,240 160,260 200,260 Z" 
+                  fill="url(#complementaryGradient)" opacity="0.15" transform="rotate(45 200 200)">
+                <animate attributeName="d" 
+                         values="M200,260 C240,260 270,240 290,200 C270,160 240,140 200,140 C160,140 130,160 110,200 C130,240 160,260 200,260 Z;
+                                 M200,280 C250,280 290,250 310,200 C290,150 250,120 200,120 C150,120 110,150 90,200 C110,250 150,280 200,280 Z;
+                                 M200,260 C240,260 270,240 290,200 C270,160 240,140 200,140 C160,140 130,160 110,200 C130,240 160,260 200,260 Z" 
+                         dur="8s" repeatCount="indefinite" />
+            </path>
+        
+            <!-- Main breathing bubble with enhanced effects -->
+            <circle cx="200" cy="200" r="80" fill="url(#bubbleGradient)" filter="url(#glow)" opacity="0.9">
+                <!-- Breathing animation - 4 seconds in, 4 seconds out -->
+                <animate attributeName="r" values="80;130;80" dur="8s" repeatCount="indefinite" id="breathingAnimation"/>
+                <animate attributeName="opacity" values="0.85;1;0.85" dur="8s" repeatCount="indefinite" />
+            </circle>
+            
+            <!-- Inner bubbles for depth effect -->
+            <circle cx="200" cy="200" r="60" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.4">
+                <animate attributeName="r" values="60;100;60" dur="8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" repeatCount="indefinite" />
+            </circle>
+            
+            <circle cx="200" cy="200" r="40" fill="none" stroke="#E0FFE7" stroke-width="1" opacity="0.3">
+                <animate attributeName="r" values="40;70;40" dur="8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="8s" repeatCount="indefinite" />
+            </circle>
+        
+            <!-- Shimmer effect inside the bubble -->
+            <circle cx="185" cy="185" r="15" fill="#FFFFFF" opacity="0.3" filter="url(#particleGlow)">
+                <animate attributeName="r" values="15;25;15" dur="8s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="8s" repeatCount="indefinite" />
+            </circle>
+            
+            <!-- Breathe In text that shows during expansion phase -->
+            <text x="200" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="19" fill="#FFFFFF" opacity="0" filter="url(#textGlow)">
+                <tspan>Breathe In</tspan>
+                <animate id="breatheInText" attributeName="opacity" 
+                         values="0;1;1;0;0" 
+                         keyTimes="0;0.05;0.45;0.5;1" 
+                         dur="10s" 
+                         repeatCount="indefinite" />
+            </text>
+            
+            <!-- Breathe Out text that shows during contraction phase -->
+            <text x="200" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="19" fill="#FFFFFF" opacity="0" filter="url(#textGlow)">
+                <tspan>Breathe Out</tspan>
+                <animate id="breatheOutText" attributeName="opacity" 
+                         values="0;0;0;1;1;0" 
+                         keyTimes="0;0.45;0.5;0.55;0.95;1" 
+                         dur="10s" 
+                         repeatCount="indefinite" />
+            </text>
+            
+            <!-- Subtle timer arc to visualize the 4-second phases -->
+            <path id="timerArc" d="M 200 200" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.3">
+                <animate attributeName="d" values="M 200 200 L 200 140 A 60 60 0 0 1 200 140 Z;
+                                               M 200 200 L 200 140 A 60 60 0 0 1 260 200 Z;
+                                               M 200 200 L 200 140 A 60 60 0 0 1 200 260 Z;
+                                               M 200 200 L 200 140 A 60 60 0 0 1 140 200 Z;
+                                               M 200 200 L 200 140 A 60 60 0 0 1 200 140 Z" 
+                       dur="10s" repeatCount="indefinite" />
+            </path>
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Green meditation bubble loaded successfully');
+            
+            // Make sure animations are synchronized
+            const animations = document.querySelectorAll('animate');
+            animations.forEach(anim => {
+                // Reset animations to ensure they're in sync
+                const newAnim = anim.cloneNode(true);
+                anim.parentNode.replaceChild(newAnim, anim);
+            });
+            
+            // Back button functionality
+            document.querySelector('.back-button').addEventListener('click', function(e) {
+                // You can customize this to navigate to your specific dashboard
+                console.log('Navigating back to dashboard');
+                // If you want to override the href behavior:
+                // e.preventDefault();
+                // window.location.href = 'your-specific-dashboard-url.html';
+            });
+        });
+    </script>
+</body>
+</html>

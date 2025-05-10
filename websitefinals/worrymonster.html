@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worry Monster</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      color: #474646;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.6;
+      animation: fade-page 0.5s ease-in-out;
+      text-align: center;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    h1 {
+      color: #0e5a13;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .monster-container {
+      position: relative;
+      height: 280px;
+      margin: 10px 0;
+      width: 100%;
+      overflow: visible;
+    }
+    
+    #worry-input {
+      width: 80%;
+      padding: 12px;
+      border: 2px solid #4aac37;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      min-height: 40px;
+      text-align: center;
+    }
+    
+    #worry-textarea {
+      width: 80%;
+      padding: 12px;
+      border: 2px solid #4aac37;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      min-height: 80px;
+      resize: vertical;
+      display: none;
+      text-align: center;
+    }
+    
+    .text-toggle {
+      background-color: #96d47e;
+      color: #2a2a2a;
+      border: 1px solid #d6e9c6;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-size: 12px;
+    }
+    
+    button:hover {
+      background-color: #53ba53;
+    }
+    
+    .worry-bubble {
+      position: absolute;
+      padding: 10px 15px;
+      background-color: #f7d6e0;
+      border-radius: 20px;
+      font-size: 14px;
+      max-width: 280px;
+      max-height: 120px;
+      overflow-y: auto;
+      text-align: center;
+      opacity: 1;
+      transition: all 0.5s;
+      word-wrap: break-word;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    
+    .worry-bubble::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    .worry-bubble::-webkit-scrollbar-thumb {
+      background-color: #ddd;
+      border-radius: 5px;
+    }
+    
+    #instructions {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #monster {
+      display: block;
+      margin: 0 auto;
+      transition: transform 0.3s ease;
+      height: 260px;
+    }
+
+    p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .feed-button {
+      background-color: #65ba65;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .feed-button:hover {
+      background-color: #53ba53;
+    }
+
+    .feed-button:active {
+      background-color: #3d8b3d;
+      transform: translateY(2px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    /* Monster speech */
+    .monster-speech {
+      position: absolute;
+      top: 70px;
+      left: 60%;
+      background-color: white;
+      border: 2px solid #4aac37;
+      border-radius: 15px;
+      padding: 10px;
+      font-size: 14px;
+      max-width: 150px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 20;
+    }
+    
+    .monster-speech:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 20px;
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: #4aac37 transparent;
+    }
+    
+    /* Visual feedback for worry consumed */
+    .worry-consumed-feedback {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #1f6312;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 30;
+    }
+    
+    @keyframes fade-up {
+      0% { opacity: 0; transform: translate(-50%, 20px); }
+      50% { opacity: 1; transform: translate(-50%, -20px); }
+      100% { opacity: 0; transform: translate(-50%, -60px); }
+    }
+    
+    /* Animation for happy bounce */
+    @keyframes happy-bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+    <main>
+      <div class="container">
+        <h1>WORRY MONSTER</h1>
+        <p>Type your worry below and watch the monster eat it away!</p>
+        
+        <input type="text" id="worry-input" placeholder="What's worrying you today?">
+        <textarea id="worry-textarea" placeholder="Write a longer worry here..."></textarea>
+        <div>
+          <button class="text-toggle" onclick="toggleInputType()">Switch to longer text format</button>
+        </div>
+
+        <div>
+          <button class="feed-button" onclick="feedMonster()">Feed your worry to the monster</button>
+        </div>
+
+        <div class="monster-container" id="monster-container">
+          <div class="monster-speech" id="monster-speech"></div>
+          <div class="worry-consumed-feedback" id="worry-consumed-feedback">Worry gone!</div>
+          <svg id="monster" viewBox="0 0 300 300" style="width: 260px; height: 260px; margin: 0 auto;">
+            <!-- Monster Body -->
+            <ellipse id="monster-body" cx="150" cy="180" rx="100" ry="80" fill="#4aac37" />
+            
+            <!-- Eyes -->
+            <circle id="left-eye-socket" cx="120" cy="140" r="25" fill="white" />
+            <circle id="right-eye-socket" cx="180" cy="140" r="25" fill="white" />
+            <circle id="left-pupil" cx="120" cy="140" r="12" fill="black" />
+            <circle id="right-pupil" cx="180" cy="140" r="12" fill="black" />
+            
+            <!-- Mouth -->
+            <path id="mouth" d="M 100,200 Q 150,240 200,200" stroke="white" stroke-width="6" fill="none" />
+            
+            <!-- Arms -->
+            <path id="left-arm" d="M 60,180 Q 40,220 30,200" stroke="#3a8c35" stroke-width="15" fill="none" />
+            <path id="right-arm" d="M 240,180 Q 260,220 270,200" stroke="#3a8c35" stroke-width="15" fill="none" />
+            
+            <!-- Legs -->
+            <path id="left-leg" d="M 110,250 Q 100,290 80,280" stroke="#3a8c35" stroke-width="15" fill="none" />
+            <path id="right-leg" d="M 190,250 Q 200,290 220,280" stroke="#3a8c35" stroke-width="15" fill="none" />
+          </svg>
+        </div>
+        
+        <div id="instructions">
+          <p>Share your worries with the monster. It'll gobble them up and help you feel better!</p>
+        </div>
+      </div>
+    </main>
+
+  <script>
+    const monsterContainer = document.getElementById('monster-container');
+    const mouth = document.getElementById('mouth');
+    const leftPupil = document.getElementById('left-pupil');
+    const rightPupil = document.getElementById('right-pupil');
+    const worryInput = document.getElementById('worry-input');
+    const worryTextarea = document.getElementById('worry-textarea');
+    const leftArm = document.getElementById('left-arm');
+    const rightArm = document.getElementById('right-arm');
+    const monsterSpeech = document.getElementById('monster-speech');
+    const worryConsumedFeedback = document.getElementById('worry-consumed-feedback');
+    let currentInputType = 'short';
+    
+    // Function to toggle input type
+    function toggleInputType() {
+      const toggleBtn = document.querySelector('.text-toggle');
+      
+      if (currentInputType === 'short') {
+        worryInput.style.display = 'none';
+        worryTextarea.style.display = 'inline-block';
+        toggleBtn.innerText = 'Switch to shorter text format';
+        currentInputType = 'long';
+        
+        // Transfer any text from input to textarea
+        worryTextarea.value = worryInput.value;
+      } else {
+        worryInput.style.display = 'inline-block';
+        worryTextarea.style.display = 'none';
+        toggleBtn.innerText = 'Switch to longer text format';
+        currentInputType = 'short';
+        
+        // Transfer any text from textarea to input
+        worryInput.value = worryTextarea.value;
+      }
+    }
+    
+    // Show a greeting when page loads
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        showMonsterSpeech('Hi there! Got any worries to share?');
+        
+        // Wave animation for greeting
+        const originalLeftArm = leftArm.getAttribute('d');
+        leftArm.setAttribute('d', 'M 60,180 Q 30,170 20,140');
+        leftArm.style.transformOrigin = '60px 180px';
+        leftArm.style.animation = 'greeting-wave 1s ease-in-out';
+        
+        setTimeout(() => {
+          leftArm.setAttribute('d', originalLeftArm);
+          leftArm.style.animation = 'none';
+          hideMonsterSpeech();
+        }, 3000);
+      }, 1000);
+    });
+
+    // Function to show monster speech bubble
+    function showMonsterSpeech(text) {
+      monsterSpeech.innerText = text;
+      monsterSpeech.style.opacity = '1';
+    }
+    
+    // Function to hide monster speech bubble
+    function hideMonsterSpeech() {
+      monsterSpeech.style.opacity = '0';
+    }
+    
+    // Function to show worry consumed feedback
+    function showWorryConsumedFeedback() {
+      const messages = [
+        'All better now!',
+        'Yum yum!',
+        'Delicious worry!',
+        'Problem solved!',
+        'Worry monster is happy!',
+        'Worry? What worry?',
+
+      ];
+      
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      worryConsumedFeedback.innerText = randomMessage;
+      worryConsumedFeedback.style.animation = 'fade-up 1.5s forwards';
+      
+      setTimeout(() => {
+        worryConsumedFeedback.style.animation = 'none';
+        worryConsumedFeedback.style.opacity = '0';
+      }, 1500);
+    }
+    
+    function feedMonster() {
+      // Get worry text based on current input type
+      let worry = currentInputType === 'short' ? 
+                  worryInput.value.trim() : 
+                  worryTextarea.value.trim();
+      
+      if (worry === '') {
+        alert('Please type a worry first!');
+        return;
+      }
+      
+      // Create a worry bubble
+      const worryBubble = document.createElement('div');
+      worryBubble.className = 'worry-bubble';
+      worryBubble.innerText = worry;
+      
+      // Get container dimensions for proper positioning
+      const containerRect = monsterContainer.getBoundingClientRect();
+      
+      // Position it randomly on top side within the container boundaries
+      const startX = Math.floor(Math.random() * (containerRect.width - 80)) + 40;
+      const startY = Math.floor(Math.random() * 60) + 20;
+      
+      worryBubble.style.left = startX + 'px';
+      worryBubble.style.top = startY + 'px';
+      
+      monsterContainer.appendChild(worryBubble);
+      
+      // Clear inputs
+      worryInput.value = '';
+      worryTextarea.value = '';
+      
+      // Adjust bubble size based on content length
+      setTimeout(() => {
+        // Limit size for very long texts
+        if (worryBubble.scrollHeight > 120) {
+          worryBubble.style.height = '120px';
+        }
+      }, 10);
+      
+      // Calculate target position (monster's mouth)
+      const centerX = containerRect.width / 2;
+      const targetY = 170; // Slightly higher to match the reduced monster container height
+      
+      // Look at the bubble (eyes follow)
+      moveEyes(startX, startY);
+      
+      // Animate the worry towards the monster's mouth
+      let progress = 0;
+      
+      const animation = setInterval(() => {
+        progress += 0.02;
+        
+        if (progress >= 1) {
+          clearInterval(animation);
+          worryBubble.remove();
+          eatWorry();
+        } else {
+          // Calculate current position
+          const currentX = startX + (centerX - startX) * progress;
+          const currentY = startY + (targetY - startY) * progress;
+          
+          // Move the bubble
+          worryBubble.style.left = currentX + 'px';
+          worryBubble.style.top = currentY + 'px';
+          
+          // Scale down a bit as it approaches
+          const scale = 1 - (progress * 0.3);
+          worryBubble.style.transform = `scale(${scale})`;
+          
+          // Keep the eyes following the bubble
+          moveEyes(currentX, currentY);
+        }
+      }, 20);
+    }
+    
+    function eatWorry() {
+      // Change mouth to open
+      mouth.setAttribute('d', 'M 100,200 Q 150,260 200,200');
+      
+      // Animation delay for 'chewing'
+      setTimeout(() => {
+        // Chew animation
+        mouth.setAttribute('d', 'M 100,200 Q 150,220 200,200');
+        
+        // Show worry consumed feedback
+        showWorryConsumedFeedback();
+        
+        setTimeout(() => {
+          // Back to normal smile
+          mouth.setAttribute('d', 'M 100,200 Q 150,240 200,200');
+          
+          // Random chance for happy response
+          if (Math.random() < 0.6) {
+            const happyMessages = [
+              "I ate your worry!",
+              "All gone now!",
+              "Feeling better?",
+              "That was tasty!",
+              "Don't worry anymore!",
+                "all better now!",
+            ];
+            
+            showMonsterSpeech(happyMessages[Math.floor(Math.random() * happyMessages.length)]);
+            
+            // Do happy bounce animation
+            const monster = document.getElementById('monster');
+            monster.style.animation = 'happy-bounce 1s ease-in-out';
+            
+            setTimeout(() => {
+              hideMonsterSpeech();
+              monster.style.animation = 'none';
+            }, 2000);
+          }
+        }, 500);
+      }, 300);
+    }
+    
+    // Function to move eyes to follow worries
+    function moveEyes(x, y) {
+      // Get monster's center position for eye movement calculations
+      const monsterRect = document.getElementById('monster').getBoundingClientRect();
+      const monsterCenterX = monsterRect.width / 2;
+      const monsterCenterY = monsterRect.height / 2;
+      
+      // Calculate direction vector from monster center to target
+      // Scale down movement to keep pupils within eye sockets
+      const maxEyeMovement = 8;
+      
+      // Left eye movement
+      const leftEyeCenterX = 120;
+      const leftEyeCenterY = 140;
+      
+      // Calculate relative position (x is relative to container width)
+      const relativeX = (x / monsterRect.width) * 300;
+      const directionX = Math.max(-maxEyeMovement, Math.min(maxEyeMovement, (relativeX - leftEyeCenterX) * 0.2));
+      const directionY = Math.max(-maxEyeMovement, Math.min(maxEyeMovement, (y - 40 - leftEyeCenterY) * 0.2));
+      
+      // Move pupils
+      leftPupil.setAttribute('cx', leftEyeCenterX + directionX);
+      leftPupil.setAttribute('cy', leftEyeCenterY + directionY);
+      
+      // Right eye movement (same calculation but with right eye center)
+      const rightEyeCenterX = 180;
+      const rightEyeCenterY = 140;
+      
+      rightPupil.setAttribute('cx', rightEyeCenterX + directionX);
+      rightPupil.setAttribute('cy', rightEyeCenterY + directionY);
+    }
+    
+    // Add event listeners for input fields
+    worryInput.addEventListener('focus', function() {
+      // Look at input field when focused
+      moveEyes(worryInput.getBoundingClientRect().left, worryInput.getBoundingClientRect().top);
+    });
+    
+    worryTextarea.addEventListener('focus', function() {
+      // Look at textarea when focused
+      moveEyes(worryTextarea.getBoundingClientRect().left, worryTextarea.getBoundingClientRect().top);
+    });
+    
+    // Return eyes to center when not focused on inputs
+    document.addEventListener('click', function(e) {
+      if (e.target !== worryInput && e.target !== worryTextarea) {
+        // Reset eyes to center with slight delay
+        setTimeout(() => {
+          leftPupil.setAttribute('cx', '120');
+          leftPupil.setAttribute('cy', '140');
+          rightPupil.setAttribute('cx', '180');
+          rightPupil.setAttribute('cy', '140');
+        }, 100);
+      }
+    });
+    
+    // Let pressing Enter in the input field trigger feeding the monster
+    worryInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        feedMonster();
+      }
+    });
+    
+    worryTextarea.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        feedMonster();
+        e.preventDefault(); // Prevent adding a new line
+      }
+    });
+    
+    // Make monster slightly interactive on hover
+    const monster = document.getElementById('monster');
+    monster.addEventListener('mouseover', function() {
+      // Random chance to react with different animations
+      const randomReaction = Math.random();
+      
+      if (randomReaction < 0.33) {
+        // Happy bounce 
+        monster.style.animation = 'happy-bounce 0.5s ease-in-out';
+        
+        // Random chance to speak
+        if (Math.random() < 0.5) {
+          const hoverMessages = [
+            "Hi there!",
+            "Hello!",
+            "Need help?",
+            "I eat worries!",
+            "Share your mind!",            
+            "I'm here for you!",
+            "Worry not!",
+            "Let's talk!",
+            "I'm listening!",
+            "Tell me your worry!",
+            "I love to help!",
+            
+          ];
+          
+          showMonsterSpeech(hoverMessages[Math.floor(Math.random() * hoverMessages.length)]);
+          
+          setTimeout(() => {
+            hideMonsterSpeech();
+          }, 2000);
+        }
+        
+        setTimeout(() => {
+          monster.style.animation = 'none';
+        }, 500);
+      } else if (randomReaction < 0.66) {
+        // Look at cursor
+        document.addEventListener('mousemove', followCursor);
+        
+        setTimeout(() => {
+          document.removeEventListener('mousemove', followCursor);
+          // Reset eyes
+          leftPupil.setAttribute('cx', '120');
+          leftPupil.setAttribute('cy', '140');
+          rightPupil.setAttribute('cx', '180');
+          rightPupil.setAttribute('cy', '140');
+        }, 3000);
+      } else {
+        // Random eye blink
+        leftPupil.setAttribute('ry', '1');
+        rightPupil.setAttribute('ry', '1');
+        
+        setTimeout(() => {
+          leftPupil.setAttribute('ry', '12');
+          rightPupil.setAttribute('ry', '12');
+        }, 200);
+      }
+    });
+    
+    // Function to make eyes follow cursor
+    function followCursor(e) {
+      const monsterRect = monster.getBoundingClientRect();
+      const x = e.clientX - monsterRect.left;
+      const y = e.clientY - monsterRect.top;
+      
+      moveEyes(x, y);
+    }
+  </script>
+</body>
+</html>

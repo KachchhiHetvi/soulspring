@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soul Spring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            color: #474646;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            animation: fade-page 0.5s ease-in-out;
+        }
+
+        header {
+            background-color: #81c784;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 3px solid #558b2f;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: min(48px, 10vw);
+            color: #ffffff;
+            margin: 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slide-in 1s ease-in-out;
+        }
+
+        .profile-pic-container {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic-button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background-color: #eaeee9;
+      border: 2px solid #246d0d;
+      border-radius: 50%;
+      padding: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .profile-pic-button:hover {
+      background-color: #e0e0e0;
+    }
+
+        .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -30px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #81c784;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .username {
+            margin-left: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        /* Container Styling */
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            margin: 20px 0;
+        }
+
+        .settings-title {
+            font-size: 24px;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        /* Account Settings */
+        .account-settings {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Settings Box - Common Style for Privacy/Password/Email/Username */
+        .settings-box {
+            background-color: #e8f5e9;
+            border: 2px solid #28a745;
+            border-radius: 20px;
+            padding: 15px 20px;
+            width: 80%;
+            max-width: 500px;
+            margin: 0 auto 15px auto;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .settings-box:hover {
+            background-color: #d3ead1;
+        }
+
+        .settings-box h3 {
+            font-size: 22px;
+            color: #006400;
+            margin: 0;
+        }
+
+        /* Notification Settings */
+        .notification-settings {
+            width: 80%;
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            text-align: left;
+        }
+
+        .notification-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Logout Button */
+        .logout {
+            margin-top: 35px;
+        }
+
+        .logout button {
+            padding: 15px 60px;
+            background-color: #ad4242;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout button:hover {
+            background-color: #8e3535;
+        }
+
+        /* Back Link */
+        .back-link {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .back-link a {
+            color: #006cbe;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-submit {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .form-submit:hover {
+            background-color: #218838;
+        }
+
+        main {
+            margin-top: 120px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        footer a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+
+        footer a.active {
+            color: #133a07;
+        }
+
+        footer a:hover {
+            color: #0b280c;
+        }
+
+        footer i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        footer span {
+            font-size: 0.75rem;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes fade-page {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slide-in {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="text-6xl font-bold">Soul Spring</h1>
+
+            <div class="profile-pic-container">
+                <label class="profile-pic-button">
+                    <input type="file" id="profile-pic-upload" class="hidden" accept="image/*"/>
+                    <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+                </label>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="text-center mb-10 w-full">
+            <h2 class="text-5xl font-bold text-teal-700">Settings</h2>
+        </div>
+
+        <!-- User Profile Display -->
+        <div class="user-profile">
+            <div class="avatar" id="user-avatar">JS</div>
+            <div class="username" id="username-display">Jane Smith</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Account Settings Section -->
+            <div class="settings-section">
+                <div class="settings-title">Account Settings</div>
+                <div class="account-settings">
+                    <div class="settings-box" id="username-section">
+                        <h3>👤 Update Username</h3>
+                    </div>
+                    <div class="settings-box" id="password-section">
+                        <h3>🔑 Change Password</h3>
+                    </div>
+                    <div class="settings-box" id="email-section">
+                        <h3>✉️ Update Email</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Policy Section -->
+            <div class="settings-section">
+                <div class="settings-box" id="privacy-policy-section">
+                    <h3>🔒 Privacy Policy</h3>
+                </div>
+            </div>
+
+            <!-- Notification Settings Section -->
+            <div class="settings-section">
+                <div class="settings-title">Notification Settings</div>
+                <div class="notification-settings">
+                    <div class="notification-option">
+                        <span>Daily Reflection Reminders</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <span>Weekly Progress Reports</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <span>New Feature Updates</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Section -->
+            <div class="settings-section">
+                <div class="settings-title">Data Management</div>
+                <button id="download-data" style="padding: 12px 25px; background-color: #81c784; color: white; border: none; border-radius: 10px; margin-right: 10px; cursor: pointer;">Download My Data</button>
+                <button id="delete-account" style="padding: 12px 25px; background-color: #f44336; color: white; border: none; border-radius: 10px; cursor: pointer;">Delete Account</button>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="logout">
+                <button>Log Out</button>
+            </div>
+            
+            <!-- Back to Dashboard Link -->
+            <p class="back-link"><a href="home.html">Back to Dashboard</a></p>
+        </div>
+
+        <!-- Username Modal -->
+        <div id="username-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Update Username</h2>
+                <form id="username-form">
+                    <div class="form-group">
+                        <label for="current-username">Current Username</label>
+                        <input type="text" id="current-username" placeholder="Current Username" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-username">New Username</label>
+                        <input type="text" id="new-username" placeholder="Enter new username" required>
+                    </div>
+                    <button type="submit" class="form-submit">Update Username</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Password Modal -->
+        <div id="password-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Change Password</h2>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" placeholder="Enter current password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" placeholder="Enter new password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm new password" required>
+                    </div>
+                    <button type="submit" class="form-submit">Change Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Email Modal -->
+        <div id="email-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Update Email</h2>
+                <form id="email-form">
+                    <div class="form-group">
+                        <label for="current-email">Current Email</label>
+                        <input type="email" id="current-email" placeholder="Current email" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-email">New Email</label>
+                        <input type="email" id="new-email" placeholder="Enter new email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-email">Confirm New Email</label>
+                        <input type="email" id="confirm-email" placeholder="Confirm new email" required>
+                    </div>
+                    <button type="submit" class="form-submit">Update Email</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 w-full bg-white shadow-lg">
+        <nav class="flex justify-around py-3">
+            <a href="home.html" class="flex flex-col items-center text-gray-500 hover:text-green-900">
+                <i class="fas fa-home text-l"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="journal.html" class="flex flex-col items-center text-gray-500 hover:text-green-900">
+                <i class="fas fa-book text-l"></i>
+                <span class="text-xs mt-1">Journal</span>
+            </a>
+            <a href="todolist.html" class="flex flex-col items-center text-gray-500 hover:text-green-900">
+                <i class="fas fa-tasks text-l"></i>
+                <span class="text-xs mt-1">Productivity</span>
+            </a>
+            <a href="games2.html">
+                <i class="fas fa-gamepad text-l"></i>
+                <span class="text-xs mt-1">Games</span>
+              </a>
+            <a href="thoughts.html" class="flex flex-col items-center text-gray-500 hover:text-green-900">
+                <i class="fas fa-lightbulb text-l"></i>
+                <span class="text-xs mt-1">Thoughts</span>
+            </a>
+            <a href="settings.html" class="flex flex-col items-center text-gray-500 hover:text-green-900 active">
+                <i class="fas fa-cog text-l"></i>
+                <span class="text-xs mt-1">Settings</span>
+            </a>
+        </nav>
+    </footer>
+      
+    <script>
+        // User Data (In a real application, this would come from a database)
+        const userData = {
+            username: "Jane Smith",
+            email: "jane.smith@example.com"
+        };
+
+            
+// Modified userData initialization for settings.html
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  
+  if (isLoggedIn !== "true") {
+    // If not logged in, redirect to home page
+    alert("Please log in to access settings");
+    window.location.href = "home.html";
+    return;
+  }
+  
+  // Get user data from localStorage
+  const username = localStorage.getItem("username") || "User";
+  const email = localStorage.getItem("userEmail") || "user@example.com";
+  
+  // Update userData object
+  userData.username = username;
+  userData.email = email;
+  
+  // Set avatar initials
+  const initials = username.split(' ').map(name => name[0]).join('');
+  document.getElementById('user-avatar').textContent = initials;
+  
+  // Set username display
+  document.getElementById('username-display').textContent = username;
+  document.getElementById('current-username').value = username;
+  
+  // Set email
+  document.getElementById('current-email').value = email;
+
+  const savedProfilePic = localStorage.getItem("profilePicture");
+  if (savedProfilePic) {
+    document.getElementById('profile-pic').src = savedProfilePic;
+  }
+  
+  // Set up profile picture upload functionality
+  const profilePicUpload = document.getElementById('profile-pic-upload');
+  profilePicUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        const imageDataUrl = e.target.result;
+        // Save to localStorage (this will persist across pages)
+        localStorage.setItem("profilePicture", imageDataUrl);
+        // Update current page display
+        document.getElementById('profile-pic').src = imageDataUrl;
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  });
+});
+
+        
+        // Modal Functionality
+        function setupModal(triggerElementId, modalId, formId, successMessage) {
+            const modal = document.getElementById(modalId);
+            const trigger = document.getElementById(triggerElementId);
+            const closeBtn = modal.querySelector('.close');
+            const form = document.getElementById(formId);
+            
+            // Open modal
+            trigger.addEventListener('click', function() {
+                modal.style.display = "block";
+            });
+            
+            // Close modal
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+            
+            // Close when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+            
+            document.getElementById('username-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const newUsername = document.getElementById('new-username').value;
+  
+  // Update localStorage
+  localStorage.setItem("username", newUsername);
+  
+  // Update UI
+  userData.username = newUsername;
+  document.getElementById('username-display').textContent = newUsername;
+  
+  // Update avatar initials
+  const initials = newUsername.split(' ').map(name => name[0]).join('');
+  document.getElementById('user-avatar').textContent = initials;
+  document.getElementById('current-username').value = newUsername;
+  
+  alert("Username updated successfully!");
+  document.getElementById('username-modal').style.display = "none";
+});
+
+// For email update
+document.getElementById('email-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const newEmail = document.getElementById('new-email').value;
+  
+  // Update localStorage
+  localStorage.setItem("userEmail", newEmail);
+  
+  // Update UI
+  userData.email = newEmail;
+  document.getElementById('current-email').value = newEmail;
+  
+  alert("Email updated successfully!");
+  document.getElementById('email-modal').style.display = "none";
+});
+        }
+
+        // Setup all modals
+        setupModal('username-section', 'username-modal', 'username-form', 'Username updated successfully!');
+        setupModal('password-section', 'password-modal', 'password-form', 'Password changed successfully!');
+        setupModal('email-section', 'email-modal', 'email-form', 'Email updated successfully!');
+
+        // Privacy Policy Modal
+        document.getElementById('privacy-policy-section').addEventListener('click', function() {
+            alert("Privacy Policy:\n\nSoul Spring is committed to protecting your privacy. We collect minimal personal information necessary to provide our services. Your journal entries and mood data are securely stored and never shared with third parties without your explicit consent. You can request deletion of your data at any time through the settings page.");
+        });
+
+        // Logout Functionality
+        document.querySelector('.logout button').addEventListener('click', function() {
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("username");
+            localStorage.removeItem("userEmail");
+  
+            alert("You have been logged out successfully!");
+            window.location.href = "home.html";
+        });
+
+        // Delete Account Confirmation
+        document.getElementById('delete-account').addEventListener('click', function() {
+            if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                alert("Account deletion process initiated. You will receive a confirmation email shortly.");
+            }
+        });
+
+        // Download Data Function
+        document.getElementById('download-data').addEventListener('click', function() {
+            alert("Your data is being prepared for download. This may take a few moments.");
+            // In a real application, this would trigger an actual data export process
+        });
+    </script>
+</body>
+</html>

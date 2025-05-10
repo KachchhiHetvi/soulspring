@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soul Spring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            color: #474646;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            animation: fade-page 0.5s ease-in-out;
+        }
+        
+        @keyframes fade-page {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        header {
+            background-color: #81c784;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 3px solid #558b2f;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: min(48px, 10vw);
+            color: #ffffff;
+            margin: 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slide-in 1s ease-in-out;
+        }
+
+
+        .profile-pic-container {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #eaeee9;
+            border: 2px solid #246d0d;
+            border-radius: 50%;
+            padding: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-pic-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        main {
+    margin-top: 120px; /* Keep this to account for the fixed header */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 80px; /* Space for the footer */
+}
+
+.container {
+    max-width: 800px; /* Set a max width for the container */
+    width: 100%; /* Make it responsive */
+    margin: 0 auto; /* Center the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items inside the container */
+}
+   
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #474646;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .thought-bubble {
+            background-color: white;
+            align-items: center;
+            padding: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.502);
+            position: relative;
+            transform-origin: center;
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.5s ease;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .thought-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.571);
+        }
+        
+        .thought-bubble:before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -1%;
+            transform: translateX(-40%);
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.374);
+        }
+        
+        .thought-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .thought-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .thought-author {
+            font-style: italic;
+            text-align: right;
+            color: #888;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background-color: white;
+            color: #4e861d;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .saved-thoughts {
+            background-color: rgba(255, 255, 255, 0.26);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .saved-thoughts h2 {
+            color: #474646;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .saved-thought-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .saved-thought-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .saved-thought-content {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .saved-thought-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff5555;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .delete-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: bubbleUp var(--duration) ease-in infinite;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        @keyframes bubbleUp {
+            0% {
+                transform: translateY(0) translateX(-50%) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            30% {
+                transform: translateY(-100px) translateX(-50%) scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-300px) translateX(-50%) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .new-thought-animation {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #157816;
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .pulse-animation {
+            animation: pulse 1.5s ease-out;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .refresh-status {
+            text-align: center;
+            color: #474646;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .status-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+
+        .status-icon.online {
+            background-color: #4CAF50;
+        }
+
+        .status-icon.offline {
+            background-color: #F44336;
+        }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #474646;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #474646;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn.active {
+            background-color: white;
+            color: #246d0d;
+            font-weight: bold;
+        }
+        
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        footer nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        footer a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: color 0.3s;
+        }
+
+        footer a.active {
+            color: #133a07;
+        }
+
+        footer a:hover {
+            color: #0b280c;
+        }
+
+        footer i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        footer span {
+            font-size: 0.75rem;
+        }
+        
+        /* Add your thought modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: #ff5555;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #246d0d;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #474646;
+        }
+        
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #81c784;
+            box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+        }
+        
+        .input-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn.cancel {
+            background-color: #f5f5f5;
+            color: #666;
+            border: none;
+        }
+        
+        .modal-btn.cancel:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .modal-btn.submit {
+            background-color: #4e861d;
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn.submit:hover {
+            background-color: #3d6b17;
+        }
+        
+            /* Responsive Styles */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 0;
+      }
+
+      .header-container {
+        flex-direction: column;
+      }
+
+      .login-icon, .logout-icon {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        padding: 6px 12px;
+      }
+
+      .profile-pic-container {
+        position: absolute;
+        top: 15px;
+        right: 110px;
+      }
+
+      .profile-pic {
+        width: 35px;
+        height: 35px;
+      }
+
+      main {
+        margin-top: 100px;
+      }
+    }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .thought-content {
+                font-size: 1.1rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .category-selector {
+                flex-wrap: wrap;
+            }
+        }
+
+        .remove-custom-btn {
+            background-color: #177212;
+            color: white;
+        }
+
+        .remove-custom-btn:hover {
+            background-color: #0b3808;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="text-6xl font-bold">Soul Spring</h1>
+            <div class="profile-pic-container">
+          <label class="profile-pic-button">
+            <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+          </label>
+        </div>
+    </div>       
+    </header> 
+
+    <main>
+        <div class="animation-container" id="animation-container"></div>
+        <div class="new-thought-animation" id="animation">New thought!</div>
+        
+        <div class="container">
+            <h1 class="page-title">Thought Bubbles</h1>
+            <p class="subtitle">Daily wisdom that lifts your spirits</p>
+            
+            <div class="refresh-status">
+                <div class="status-icon online" id="status-icon"></div>
+                <span id="connection-status">Connected to inspiration sources</span>
+                <div class="loader" id="loader"></div>
+            </div>
+            
+            <div class="category-selector">
+                <button class="category-btn active" data-category="inspiration">Inspiration</button>
+                <button class="category-btn" data-category="wisdom">Wisdom</button>
+                <button class="category-btn" data-category="success">Success</button>
+                <button class="category-btn" data-category="happiness">Happiness</button>
+                <button class="category-btn" data-category="mindfulness">Mindfulness</button>
+                <button class="category-btn" data-category="custom">My Thoughts</button>
+            </div>
+            
+            <div class="thought-bubble" id="current-thought">
+                <p class="thought-date" id="current-date">April 12, 2025</p>
+                <p class="thought-content" id="thought-content">The quieter you become, the more you can hear. Sometimes the most profound insights come not from seeking answers, but from creating space for them to find you.</p>
+                <p class="thought-author">- Ram Dass</p>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn" id="refresh-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M1 20v-6h6"></path>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                        <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    New Thought
+                </button>
+                <button class="btn" id="save-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Save This Thought
+                </button>
+                <button class="btn" id="add-thought-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Your Thought
+                </button>
+            </div>
+            
+            <div class="saved-thoughts" id="saved-thoughts-container">
+                <h2>Your Saved Thoughts</h2>
+                <div id="saved-thoughts-list">
+                    <!-- Saved thoughts will appear here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Your Thought Modal -->
+    <div class="modal" id="add-thought-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <h2 class="modal-title">Add Your Thought</h2>
+            <form id="add-thought-form">
+                <div class="input-group">
+                    <label for="thought-input">Your Thought</label>
+                    <textarea id="thought-input" placeholder="Share your wisdom or inspiration..." required></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="author-input">Author (optional)</label>
+                    <input type="text" id="author-input" placeholder="Your name or leave blank for 'Anonymous'">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn cancel" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="modal-btn submit">Add Thought</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <nav>
+            <a href="home.html" class="flex flex-col items-center text-gray-500 hover:text-green-800">
+                <i class="fas fa-home"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="journal.html" class="flex flex-col items-center text-gray-500 hover:text-green-800">
+                <i class="fas fa-book"></i>
+                <span class="text-xs mt-1">Journal</span>
+            </a>
+            <a href="todolist.html" class="flex flex-col items-center text-gray-500 hover:text-green-800">
+                <i class="fas fa-tasks"></i>
+                <span class="text-xs mt-1">Productivity</span>
+            </a>
+            <a href="games2.html">
+                <i class="fas fa-gamepad text-l"></i>
+                <span class="text-xs mt-1">Games</span>
+              </a>
+            <a href="thoughts.html" class="active flex flex-col items-center text-green-800">
+                <i class="fas fa-lightbulb"></i>
+                <span class="text-xs mt-1">Thoughts</span>
+            </a>
+            <a href="settings.html" class="flex flex-col items-center text-gray-500 hover:text-green-800">
+                <i class="fas fa-cog"></i>
+                <span class="text-xs mt-1">Settings</span>
+            </a>
+        </nav>
+    </footer>
+  
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create background bubbles
+            createBubbles();
+            
+            // Set current date
+            updateCurrentDate();
+            
+            // Fallback quotes in case API is unavailable
+            const fallbackThoughts = [
+                {
+                    content: "The quieter you become, the more you can hear. Sometimes the most profound insights come not from seeking answers, but from creating space for them to find you.",
+                    author: "Ram Dass"
+                },
+                {
+                    content: "We don't see things as they are, we see them as we are. Our perception shapes our reality more than we realize.",
+                    author: "Anaïs Nin"
+                },
+                {
+                    content: "The most beautiful experience we can have is the mysterious. It is the fundamental emotion that stands at the cradle of true art and true science.",
+                    author: "Albert Einstein"
+                },
+                {
+                    content: "In the end, it's not the years in your life that count. It's the life in your years that makes all the difference.",
+                    author: "Abraham Lincoln"
+                },
+                {
+                    content: "The only way to make sense out of change is to plunge into it, move with it, and join the dance.",
+                    author: "Alan Watts"
+                },
+                {
+                    content: "The biggest adventure you can take is to live the life of your dreams. Every morning is a new chance to rewrite your story.",
+                    author: "Oprah Winfrey"
+                },
+                {
+                    content: "You do not find the happy life. You make it. Happiness is not something ready-made. It comes from your own actions.",
+                    author: "Dalai Lama"
+                },
+                {
+                    content: "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.",
+                    author: "Steve Jobs"
+                },
+                {
+                    content: "Life isn't about finding yourself. Life is about creating yourself and discovering who you were always meant to be.",
+                    author: "George Bernard Shaw"
+                },
+                {
+                    content: "The greatest glory in living lies not in never falling, but in rising every time we fall. Resilience is our greatest strength.",
+                    author: "Nelson Mandela"
+                }
+            ];
+            
+            // Custom thoughts array
+            let customThoughts = JSON.parse(localStorage.getItem('customThoughts')) || [];
+            
+            // API endpoints by category
+            const apiEndpoints = {
+                inspiration: 'https://api.quotable.io/quotes/random?tags=inspirational',
+                wisdom: 'https://api.quotable.io/quotes/random?tags=wisdom',
+                success: 'https://api.quotable.io/quotes/random?tags=success',
+                happiness: 'https://api.quotable.io/quotes/random?tags=happiness',
+                mindfulness: 'https://api.quotable.io/quotes/random?tags=life'
+            };
+           // Track current category
+    let currentCategory = 'inspiration';
+    let onlineStatus = true;
+    
+    // Initialize saved thoughts from localStorage
+    let savedThoughts = JSON.parse(localStorage.getItem('savedThoughts')) || [];
+    renderSavedThoughts();
+    
+    // Set up event listeners
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+        fetchNewThought();
+    });
+    
+    document.getElementById('save-btn').addEventListener('click', function() {
+        saveCurrentThought();
+    });
+    
+    // Add Your Thought modal functionality
+    const modal = document.getElementById('add-thought-modal');
+    const addThoughtBtn = document.getElementById('add-thought-btn');
+    const modalClose = document.getElementById('modal-close');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const addThoughtForm = document.getElementById('add-thought-form');
+    
+    addThoughtBtn.addEventListener('click', function() {
+        modal.style.display = 'flex';
+    });
+    
+    modalClose.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    cancelBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    addThoughtForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const thoughtContent = document.getElementById('thought-input').value.trim();
+        let authorName = document.getElementById('author-input').value.trim();
+        
+        if (authorName === '') {
+            authorName = 'Anonymous';
+        }
+        
+        if (thoughtContent !== '') {
+            // Create new custom thought - corrected the duplicate object creation
+            const newThought = {
+                content: thoughtContent,
+                author: authorName,
+                date: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+            
+            // Add to custom thoughts array
+            customThoughts.push(newThought);
+            
+            // Save to localStorage
+            localStorage.setItem('customThoughts', JSON.stringify(customThoughts));
+            
+            // If current category is custom, update display
+            if (currentCategory === 'custom') {
+                displayCustomThought();
+            }
+            
+            // Reset form and close modal
+            document.getElementById('thought-input').value = '';
+            document.getElementById('author-input').value = '';
+            modal.style.display = 'none';
+            
+            // Show animation
+            animateNewThought('Thought added!');
+        }   
+    });
+    
+    // Category selection
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active button
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Set current category
+            currentCategory = this.getAttribute('data-category');
+            
+            // Remove delete button if switching away from custom category
+            if (currentCategory !== 'custom') {
+                const thoughtBubble = document.querySelector('.thought-bubble');
+                const existingDeleteBtn = thoughtBubble.querySelector('.delete-custom-btn');
+                if (existingDeleteBtn) {
+                    existingDeleteBtn.remove();
+                }
+            }
+            
+            // Fetch thought for selected category
+            if (currentCategory === 'custom') {
+                displayCustomThought();
+            } else {
+                fetchNewThought();
+            }
+        });
+    });
+    
+    // Function to delete a custom thought
+    function deleteCustomThought(index) {
+        // Remove the thought from the array
+        customThoughts.splice(index, 1);
+        
+        // Update localStorage
+        localStorage.setItem('customThoughts', JSON.stringify(customThoughts));
+        
+        // If currently in custom category, refresh the display
+        if (currentCategory === 'custom') {
+            displayCustomThought();
+        }
+        
+        // Show animation
+        animateNewThought('Thought deleted!');
+    }
+    
+    // Function to display a random custom thought
+    function displayCustomThought() {
+        const thoughtContent = document.getElementById('thought-content');
+        const thoughtAuthor = document.querySelector('.thought-author');
+        
+        if (customThoughts.length > 0) {
+            const randomIndex = Math.floor(Math.random() * customThoughts.length);
+            const thought = customThoughts[randomIndex];
+            
+            thoughtContent.textContent = thought.content;
+            thoughtAuthor.textContent = '- ' + thought.author;
+            
+            // Add a delete button for custom thoughts
+            const thoughtBubble = document.querySelector('.thought-bubble');
+            
+            // Remove any existing delete button first
+            const existingDeleteBtn = thoughtBubble.querySelector('.delete-custom-btn');
+            if (existingDeleteBtn) {
+                existingDeleteBtn.remove();
+            }
+            
+            // Create and add new delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn delete-custom-btn';
+            deleteBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Delete This Thought
+            `;
+            
+            // Add event listener to delete button
+            deleteBtn.addEventListener('click', function() {
+                deleteCustomThought(randomIndex);
+            });
+            
+            thoughtBubble.appendChild(deleteBtn);
+        } else {
+            thoughtContent.textContent = "You haven't added any custom thoughts yet. Click 'Add Your Thought' to create one!";
+            thoughtAuthor.textContent = '';
+            
+            // Remove any existing delete button when there are no thoughts
+            const thoughtBubble = document.querySelector('.thought-bubble');
+            const existingDeleteBtn = thoughtBubble.querySelector('.delete-custom-btn');
+            if (existingDeleteBtn) {
+                existingDeleteBtn.remove();
+            }
+        }
+    }
+    
+    // Fetch a new thought from API or fallback
+    function fetchNewThought() {
+        const thoughtContent = document.getElementById('thought-content');
+        const thoughtAuthor = document.querySelector('.thought-author');
+        const statusIcon = document.getElementById('status-icon');
+        const connectionStatus = document.getElementById('connection-status');
+        const loader = document.getElementById('loader');
+        
+        // Show loader
+        loader.style.display = 'inline-block';
+        
+        if (currentCategory === 'custom') {
+            displayCustomThought();
+            loader.style.display = 'none';
+            return;
+        }
+        
+        // Try to fetch from API
+        if (onlineStatus && apiEndpoints[currentCategory]) {
+            fetch(apiEndpoints[currentCategory])
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update UI with new quote
+                    if (data && data.length > 0) {
+                        thoughtContent.textContent = data[0].content;
+                        thoughtAuthor.textContent = '- ' + data[0].author;
+                        
+                        // Show animation
+                        animateNewThought('New thought!');
+                        
+                        // Update status
+                        statusIcon.classList.remove('offline');
+                        statusIcon.classList.add('online');
+                        connectionStatus.textContent = 'Connected to inspiration sources';
+                        onlineStatus = true;
+                    } else {
+                        useFallbackThought();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching quote:', error);
+                    useFallbackThought();
+                    
+                    // Update status
+                    statusIcon.classList.remove('online');
+                    statusIcon.classList.add('offline');
+                    connectionStatus.textContent = 'Using offline inspiration (connection issues)';
+                    onlineStatus = false;
+                })
+                .finally(() => {
+                    // Hide loader
+                    loader.style.display = 'none';
+                });
+        } else {
+            // Use fallback
+            useFallbackThought();
+            loader.style.display = 'none';
+        }
+    }
+    
+    // Use a fallback thought when API fails
+    function useFallbackThought() {
+        const thoughtContent = document.getElementById('thought-content');
+        const thoughtAuthor = document.querySelector('.thought-author');
+        
+        const randomIndex = Math.floor(Math.random() * fallbackThoughts.length);
+        const thought = fallbackThoughts[randomIndex];
+        
+        thoughtContent.textContent = thought.content;
+        thoughtAuthor.textContent = '- ' + thought.author;
+        
+        // Show animation
+        animateNewThought('New thought!');
+    }
+    
+    // Save current thought to localStorage
+    function saveCurrentThought() {
+        const content = document.getElementById('thought-content').textContent;
+        const author = document.querySelector('.thought-author').textContent.replace('- ', '');
+        
+        // Check if content is not empty and not the "You haven't added any custom thoughts yet" message
+        if (content && !content.includes("You haven't added any custom thoughts yet")) {
+            // Check if this thought is already saved
+            const thoughtExists = savedThoughts.some(thought => 
+                thought.content === content && thought.author === author
+            );
+            
+            if (!thoughtExists) {
+                const thought = {
+                    content: content,
+                    author: author,
+                    date: new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    })
+                };
+                
+                savedThoughts.unshift(thought);  // Add to beginning of array
+                localStorage.setItem('savedThoughts', JSON.stringify(savedThoughts));
+                renderSavedThoughts();
+                
+                // Show animation
+                animateNewThought('Thought saved!');
+            } else {
+                animateNewThought('Already saved!');
+            }
+        }
+    }
+    
+    // Render saved thoughts
+    function renderSavedThoughts() {
+        const savedThoughtsList = document.getElementById('saved-thoughts-list');
+        savedThoughtsList.innerHTML = '';
+        
+        if (savedThoughts.length === 0) {
+            savedThoughtsList.innerHTML = '<p class="text-center text-gray-500 my-4">No saved thoughts yet. Click "Save This Thought" to add one!</p>';
+            return;
+        }
+        
+        savedThoughts.forEach((thought, index) => {
+            const thoughtElement = document.createElement('div');
+            thoughtElement.className = 'saved-thought-item';
+            
+            thoughtElement.innerHTML = `
+                <p class="saved-thought-content">${thought.content}</p>
+                <div class="saved-thought-meta">
+                    <span>${thought.author} • ${thought.date}</span>
+                    <button class="delete-btn" data-index="${index}">Delete</button>
+                </div>
+            `;
+            
+            savedThoughtsList.appendChild(thoughtElement);
+        });
+        
+        // Add event listeners to delete buttons
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                savedThoughts.splice(index, 1);
+                localStorage.setItem('savedThoughts', JSON.stringify(savedThoughts));
+                renderSavedThoughts();
+            });
+        });
+    }
+    
+    // Create floating bubbles in background
+    function createBubbles() {
+        const container = document.getElementById('animation-container');
+        
+        for (let i = 0; i < 15; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            // Random position, size and animation duration
+            const size = Math.random() * 60 + 20;
+            const leftPos = Math.random() * 100;
+            
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${leftPos}%`;
+            bubble.style.setProperty('--duration', `${Math.random() * 10 + 8}s`);
+            
+            // Delay start of animation
+            bubble.style.animationDelay = `${Math.random() * 10}s`;
+            
+            container.appendChild(bubble);
+        }
+    }
+    
+    // Show animation when getting a new thought
+    function animateNewThought(message) {
+        const animation = document.getElementById('animation');
+        animation.textContent = message;
+        animation.classList.add('pulse-animation');
+        
+        setTimeout(() => {
+            animation.classList.remove('pulse-animation');
+        }, 1500);
+    }
+    
+    // Update current date
+    function updateCurrentDate() {
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
+        dateElement.textContent = now.toLocaleDateString('en-US', { 
+            weekday: 'long',
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+    
+    // Create background bubbles
+    createBubbles();
+    
+    // Update the date display
+    updateCurrentDate();
+    
+    // Initial load of a thought
+    fetchNewThought();
+});
+
+function loadProfilePicture() {
+  const profilePicElement = document.getElementById('profile-pic');
+  if (profilePicElement) {
+    const savedProfilePic = localStorage.getItem("profilePicture");
+    if (savedProfilePic) {
+      profilePicElement.src = savedProfilePic;
+    }
+  }
+}
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadProfilePicture);
+    </script>
+</body>
+</html>

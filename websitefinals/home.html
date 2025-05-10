@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Spring</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css">
+
+ <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      color: #474646;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.6;
+      animation: fade-page 0.5s ease-in-out;
+    }
+
+    header {
+      background-color: #81c784;
+      width: 100%;
+      padding: 19px 0;
+      text-align: center;
+      border-bottom: 3px solid #558b2f;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: min(48px, 10vw);
+      color: #ffffff;
+      margin: 0;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: slide-in 1s ease-in-out;
+    }
+
+    .profile-pic-container {
+      position: absolute;
+      right: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-pic-button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background-color: #eaeee9;
+      border: 2px solid #246d0d;
+      border-radius: 50%;
+      padding: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .profile-pic-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .profile-pic {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .login-icon {
+      position: absolute;
+      right: 85px;
+      background-color: #558b2f;
+      padding: 8px 16px;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .login-icon a {
+      font-size: 18px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-icon:hover {
+      transform: scale(1.1);
+      background-color: #81c784;
+    }
+
+    /* Logout button class */
+    .logout-icon {
+      position: absolute;
+      right: 85px;
+      background-color: #a44141;
+      padding: 8px 16px;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .logout-icon a {
+      font-size: 18px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .logout-icon:hover {
+      transform: scale(1.1);
+      background-color: #c25050;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    main {
+      margin-top: 120px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    footer nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    footer a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #6b7280;
+      transition: color 0.3s;
+    }
+
+    footer a.active {
+      color: #133a07;
+    }
+
+    footer a:hover {
+      color: #0b280c;
+    }
+
+    footer i {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    footer span {
+      font-size: 0.75rem;
+    }
+
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .shape {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.3);
+      animation: float 20s linear infinite;
+      z-index: -1;
+    }
+    
+    .circle {
+      border-radius: 50%;
+    }
+    
+    .shape:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 10%;
+      left: 10%;
+      animation-duration: 25s;
+    }
+    
+    .shape:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      top: 20%;
+      right: 15%;
+      animation-duration: 10s;
+      animation-delay: 2s;
+    }
+    
+    .shape:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      bottom: 20%;
+      left: 20%;
+      animation-duration: 20s;
+      animation-delay: 5s;
+    }
+    
+    .shape:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      bottom: 10%;
+      right: 10%;
+      animation-duration: 15s;
+      animation-delay: 2s;
+    }
+
+    /* Animations */
+    @keyframes slide-in {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(100px, 50px) rotate(90deg);
+      }
+      50% {
+        transform: translate(200px, 0) rotate(180deg);
+      }
+      75% {
+        transform: translate(100px, -50px) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 0;
+      }
+
+      .header-container {
+        flex-direction: column;
+      }
+
+      .login-icon, .logout-icon {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        padding: 6px 12px;
+      }
+
+      .profile-pic-container {
+        position: absolute;
+        top: 15px;
+        right: 110px;
+      }
+
+      .profile-pic {
+        width: 35px;
+        height: 35px;
+      }
+
+      main {
+        margin-top: 100px;
+      }
+
+    }
+
+    .set-container {
+      margin-bottom: 100px;
+      width: 100%;
+      max-width: 1000px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .set-container:nth-child(1) {
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.2s;
+    }
+    
+    .set-container:nth-child(2) {
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.4s;
+    }
+    
+    .set-container:nth-child(3) {
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.6s;
+    }
+    
+    .set-container:nth-child(4) {
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.8s;
+      margin-bottom: 40px;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-container {
+      display: flex;
+      align-items: center;
+      gap: 35px;
+      justify-content: center;
+    }
+    
+    .photo-card {
+      width: 320px;
+      height: 210px;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.333);
+      transition: all 0.3s ease;
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .text-card {
+      width: 480px;
+      height: 208px;
+      background: linear-gradient(145deg, #2e8b57, #3cb371);
+      color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.333);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .text-card h2 {
+      margin-top: 0;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    
+    .text-card p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    
+    .photo-card:hover,
+    .text-card:hover {
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.712);
+      transform: translateY(-10px);
+    }
+
+    .quote-container {
+      margin-bottom: 40px;
+      text-align: center;
+      
+    }
+    
+    .quote {
+      font-size: 20px;
+      font-weight: bold;
+      font-style: italic;
+      color: #2e8b57;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    
+    .quote::before, .quote::after {
+      content: '"';
+      font-size: 36px;
+      font-family: Georgia, serif;
+    }
+    
+
+    @media (max-width: 800px) {
+      .card-container {
+        flex-direction: column;
+      }
+      .text-card {
+        width: 300px;
+        height: auto;
+      }
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 900px;
+      height: 430px;
+      margin: auto;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.783);
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+    
+    /* Hide the images by default */
+    .mySlides {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    /* Show the active slide */
+    .mySlides.active {
+      opacity: 1;
+    }
+    
+    .mySlides img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Next & previous buttons */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      margin-top: -22px;
+      padding: 16px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+      background-color: rgba(0, 0, 0, 0.116);
+    }
+    
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 10px;
+    }
+    
+    /* Position the "prev button" to the left */
+    .prev {
+        left: 0px; /* Adjust this value for spacing from the left edge */
+        border-radius: 10px;
+    }
+    
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.352);
+    }
+    
+    /* The dots/bullets/indicators */
+    .dots-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .dot {
+      cursor: pointer;
+      height: 5px;
+      width: 5px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    
+    .active-dot, .dot:hover {
+      background-color: #175231;
+    }
+    
+    /* Fading animation */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Login Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: -75px;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      transition: all 0.3s ease;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+      width: 80%;
+      max-width: 400px;
+      position: relative;
+      transition: all 0.3s ease;
+      transform: scale(0.9);
+      opacity: 0;
+      animation: modalOpen 0.3s forwards;
+    }
+
+    @keyframes modalOpen {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      color: #555;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #2e8b57;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #81c784;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #2e8b57;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-login:hover {
+      background-color: #216e41;
+    }
+
+    .form-footer {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .form-footer a {
+      color: #2e8b57;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .form-footer a:hover {
+      color: #216e41;
+      text-decoration: underline;
+    }
+
+    /* Add this to your existing CSS */
+    .username-display {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: #558b2f;
+    padding: 2px 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+    .username-display {
+    font-size: 12px;
+    top: -20px;
+     }
+    }
+
+
+
+    :root {
+            --primary-color: #176106; /* Modern indigo */
+            --primary-light: #60aa15;
+            --primary-dark: #0a3602;
+            --accent-color: #10B981; /* Green accent */
+            --surface: #ffffff;
+            --surface-hover: #F9FAFB;
+            --surface-variant: #F3F4F6;
+            --on-surface: #1F2937;
+            --on-surface-medium: #6B7280;
+            --on-surface-light: #9CA3AF;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        
+    /* Chat widget main container */
+        .chat-widget {
+            position: fixed;
+            bottom: 54px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--on-surface);
+    }
+        
+        /* Chat launcher button */
+        .chat-launcher {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-all);
+            z-index: 1000;
+        }
+        
+        .chat-launcher:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+        }
+        
+        .chat-launcher i {
+            color: white;
+            font-size: 24px;
+            transition: var(--transition-all);
+        }
+        
+        .chat-launcher.active i {
+            transform: rotate(180deg);
+        }
+        
+        /* Chat container - Modified for circular expansion */
+        .chat-container {
+            position: absolute;
+            bottom: 30px; /* Center with launcher */
+            right: 30px; /* Center with launcher */
+            width: 370px;
+            height: 510px;
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: bottom right;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* More bouncy effect */
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background-color: var(--surface);
+            border: 1px solid var(--surface-variant);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .chat-container.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .chat-header:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+        }
+        
+        .chat-header h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.01em;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-body {
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--surface);
+            background-image: 
+                radial-gradient(var(--surface-variant) 1px, transparent 1px),
+                radial-gradient(var(--surface-variant) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            background-attachment: fixed;
+        }
+        
+        .messages {
+            padding: 10px 12px;
+            flex-grow: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            
+        }
+        
+        .message {
+            margin-bottom: 6px;
+            max-width: 80%;
+            padding: 3px 7px;
+            border-radius: var(--radius-md);
+            line-height: 1.3;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            white-space: pre-line;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .message:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: var(--radius-sm);
+        }
+        
+        .bot-message {
+            background-color: var(--surface);
+            border: 1px solid var(--surface-variant);
+            color: var(--on-surface);
+            align-self: flex-start;
+            border-bottom-left-radius: var(--radius-sm);
+        }
+        
+        .chat-input {
+            display: flex;
+            border-top: 1px solid var(--surface-variant);
+            background-color: var(--surface);
+            position: relative;
+            padding: 6px;
+        }
+        
+        .input-wrapper {
+            display: flex;
+            flex-grow: 1;
+            background-color: var(--surface-variant);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition-all);
+            border: 1px solid transparent;
+        }
+        
+        .input-wrapper:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+        
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px 14px;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            background-color: transparent;
+        }
+        
+        .chat-input button {
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-all);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+        }
+        
+        .emoji-toggle {
+            background: none;
+            width: 40px;
+            height: 40px;
+            font-size: 1.25rem;
+            color: var(--on-surface-medium);
+        }
+        
+        .emoji-toggle:hover {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        
+        .send-btn:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        
+        .settings-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition-all);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .settings-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+        }
+        
+        .typing-indicator {
+            padding: 8px 12px;
+            background-color: var(--surface);
+            border: 1px solid var(--surface-variant);
+            color: var(--on-surface);
+            align-self: flex-start;
+            border-radius: var(--radius-lg);
+            border-bottom-left-radius: var(--radius-sm);
+            margin-left: 12px;
+            margin-bottom: 12px;
+            display: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            margin-right: 4px;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Modal styles */
+        .modal h1{
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content h1{
+            background-color: var(--surface);
+            margin: 15% auto;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideUp 0.4s ease;
+            border: 1px solid var(--surface-variant);
+        }
+        
+        @keyframes modalSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal h2 {
+            color: var(--on-surface);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--on-surface);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--surface-variant);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            transition: var(--transition-all);
+            background-color: var(--surface);
+            color: var(--on-surface);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 6px;
+            color: var(--on-surface-medium);
+            font-size: 0.8rem;
+        }
+        
+        .modal-buttons h1{
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .modal-buttons button h1{
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-all);
+            font-size: 0.95rem;
+        }
+        
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .cancel-btn {
+            background-color: var(--surface-variant);
+            color: var(--on-surface);
+        }
+        
+        .cancel-btn:hover {
+            background-color: #E5E7EB;
+        }
+        
+
+        .emoji-picker-container {
+            position: fixed;
+            right: 430px;
+            bottom: 89px;
+            z-index: 100;
+            animation: fadeIn 0.2s ease;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            max-height: 350px; /* Prevent it from being too tall */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Add this if you want the emoji picker to be visible on mobile too */
+            @media (max-width: 768px) {
+            .emoji-picker-container {
+                right: 100px;
+                bottom: 70px;
+                max-width: 200px; /* Ensure it's not too wide on mobile */
+            }
+            }
+        
+        .emoji-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 6px 4px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-all);
+        }
+        
+        .emoji-btn:hover {
+            background-color: var(--surface-variant);
+            transform: scale(1.1);
+        }
+
+        /* Message separator */
+        .message-separator {
+            text-align: center;
+            margin: 12px 0;
+            position: relative;
+        }
+        
+        .message-separator::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--surface-variant);
+            z-index: 1;
+        }
+        
+        .message-separator span {
+            background-color: var(--surface);
+            padding: 0 10px;
+            font-size: 0.75rem;
+            color: var(--on-surface-medium);
+            position: relative;
+            z-index: 2;
+            border-radius: var(--radius-sm);
+        }
+        
+        /* Message content formatting */
+        .message-content {
+            margin-bottom: 4px;
+        }
+        
+        .message-time {
+            display: block;
+            font-size: 0.65rem;
+            margin-top: 2px;
+            opacity: 0.8;
+            text-align: right;
+        }
+        
+        .bot-message .message-time {
+            text-align: left;
+        }
+        
+        .message-paragraph {
+            margin-bottom: 8px;
+        }
+        
+        .message-paragraph:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Scrollbar styling */
+        .messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .messages::-webkit-scrollbar-thumb {
+            background-color: var(--on-surface-light);
+            border-radius: 20px;
+        }
+        
+        .emoji-picker::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .emoji-picker::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .emoji-picker::-webkit-scrollbar-thumb {
+            background-color: var(--on-surface-light);
+            border-radius: 20px;
+        }
+        
+        .send-btn, .emoji-toggle, .save-btn, .cancel-btn, .chat-launcher {
+            position: relative;
+            overflow: hidden; /* Important - contains the ripple */
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.7);
+             pointer-events: none; /* So it doesn't interfere with clicks */
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+    
+        /* Add responsiveness for small screens */
+        @media (max-width: 480px) {
+            .chat-container {
+                width: 90vw;
+                right: 0;
+                bottom: 70px;
+            }
+            
+            .chat-launcher {
+                width: 50px;
+                height: 50px;
+            }
+        }
+  </style>
+</head>
+<body>
+    <header>
+      <div class="header-container">
+        <h1 class="text-6xl font-bold">Soul Spring</h1>
+        
+        <div id="login-button" class="login-icon">
+          <a href="#">Login</a>
+        </div>
+
+        <div id="logout-button" class="logout-icon hidden">
+          <a href="#">Logout</a>
+        </div>
+
+        <div class="profile-pic-container">
+          <label class="profile-pic-button">
+            <img alt="Profile Picture" class="profile-pic" id="profile-pic" src="https://i.pinimg.com/736x/7f/46/df/7f46df06c796d0c0a270e9a5c7be5e8a.jpg"/>
+          </label>
+        </div>
+        <input type="file" id="profile-pic-upload" class="hidden" />
+    </header>
+
+      <!-- Updated Login Modal Content -->
+<div id="login-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div class="modal-header">
+      <h2>Welcome</h2>
+    </div>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn-login">Login</button>
+      <div class="form-footer">
+        <p>Don't have an account? <a href="#" id="signup-link">Sign up</a></p>
+        <p><a href="#" id="forgot-password">Forgot Password?</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+
+    <main>
+      <div class="text-center mb-10 w-full">
+        <h2 class="text-3xl font-bold text-teal-700">Hey Sweet Heart!</h2>
+        <p class="text-gray-600">Ready to focus on yourself?</p>
+      </div>
+      
+      <!-- First Set -->
+  <div class="set-container">
+    <div class="quote-container">
+      <p class="quote">Your feelings aren't too much. Your emotions are not burdens.You are human - and everything that happens is proof that you are beautifull alive.</p>
+    </div>
+    
+    <div class="card-container">
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/fd/f0/d7/fdf0d70ca8f8fcf479f2f2d7faa19e9b.jpg" alt="Painting">
+      </div>
+      <div class="text-card">
+        <h2>The Inner Canvas</h2>
+        <p>You don't have to explain it ~ just draw what your heart is whispering</p>
+        <pre> </pre>
+        <a href="whiteboard.html" class="btn btn-primary">Click here to draw </a>
+        <pre> </pre>
+        <p>Exhale. Express. Create</p>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Second Set -->
+  <div class="set-container">
+    <div class="quote-container">
+      <p class="quote">You're stronger than you know . keep believing - peace is near.</p>
+      
+    </div>
+    
+    <div class="card-container">
+      <div class="text-card">
+        <h2>The Music Within</h2>
+        <p>When the world is too loud, let music be your comfort - no advice just warmth and understanding.</p>
+        <pre> </pre>
+        <a href="music.html">Click here to listen</a>
+        <pre> </pre>
+        <p>Pause. Breathe. Listen</p>
+      </div>
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/51/d6/81/51d681f9e3154c636ccbf1e5457dd364.jpg" alt="Girl with headphones">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Third Set -->
+  <div class="set-container">
+    <div class="quote-container">
+      <p class="quote">Healing isn't race. It's a rythm - and it's yours.</p>
+      
+    </div>
+    
+    <div class="card-container">
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/d0/e1/36/d0e1363bcd2e2d68414710095ad7301b.jpg" alt="Breathe Bubble">
+      </div>
+      <div class="text-card">
+        <h2>The Calm Pulse</h2>
+        <p>Feeling stuck inside? Let your breath carry it out.</p>
+        <pre> </pre>
+        <a href="bubble.html">Click here to breathe</a>
+        <pre> </pre>
+        <p>Inhale. Trust. Exale</p>
+      </div>
+    </div>
+    <pre> </pre>
+    <div class="quote-container">
+      <p class="quote">Rest Dear your are growing- not competing</p>
+    </div>
+    <pre> </pre>
+    <div class="quote-container">
+      <p class="quote">Do everything you want because no one is going to remember anyways - just enjoy don't overthink</p>
+    </div>
+  </div>
+  
+    <div class="container">
+     <!-- Slideshow container -->
+     <div class="slideshow-container">
+      <!-- Full-width images with number and caption text -->
+      <div class="mySlides active">
+        <img src="https://i.pinimg.com/474x/b8/1d/7e/b81d7edcf4860c1ec13fae2d98c304c3.jpg" alt="Fun">
+      </div>
+      
+      <div class="mySlides">
+        <img src="https://i.pinimg.com/736x/1c/42/bb/1c42bbe144e4e1f5a831cf2ff043a3f3.jpg" alt="img2">
+      </div>
+      
+      <div class="mySlides">
+        <img src="https://i.pinimg.com/736x/ea/9b/c2/ea9bc2dc0c696298fc6db3a32a3481a6.jpg" alt="img 3">
+      </div>
+      
+      <div class="mySlides">
+        <img src="https://i.pinimg.com/736x/f0/65/b6/f065b6af24b7d09d4a9f92f306457f1e.jpg" alt="Nature Image 4">
+      </div>
+      
+      <div class="mySlides">
+        <img src="https://i.pinimg.com/736x/7c/40/e4/7c40e4fa63f2c2842561db1c13c9f858.jpg" alt="Nature Image 5">
+      </div>
+      
+      <div class="mySlides">
+        <img src="https://i.pinimg.com/736x/6b/0a/58/6b0a5846e5c27b36e2a4e4aa219d2ec6.jpg" alt="Nature Image 6">
+      </div>
+      
+      <!-- Next and previous buttons -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    
+    <!-- The dots/circles -->
+    <div class="dots-container">
+      <span class="dot active-dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+      <span class="dot" onclick="currentSlide(5)"></span>
+      <span class="dot" onclick="currentSlide(6)"></span>
+    </div>
+  </div>
+
+      <div class="floating-shapes">
+        <div class="shape circle"></div>
+        <div class="shape circle"></div>
+        <div class="shape circle"></div>
+        <div class="shape circle"></div>
+      </div>
+    </main>
+
+        <!-- Chat Widget -->
+    <div class="chat-widget">
+        <!-- Circular Chat Launcher -->
+        <div class="chat-launcher" id="chatLauncher">
+            <i class="fas fa-comment"></i>
+            <!-- <div class="notification-dot" id="notificationDot"></div> -->
+        </div>
+        
+        <!-- Expandable Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <h3>
+                    <i class="fas fa-robot"></i>
+                    Gemini AI
+                </h3>
+                <div class="header-actions">
+                    <button class="settings-btn" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="messages" id="messages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            <div class="message-paragraph"><i class="fas fa-hand-wave"></i> Hi there! I'm powered by Gemini AI. Enter your API key in settings to get started.</div>
+                        </div>
+                        <div class="message-time">System</div>
+                    </div>
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="chat-input">
+                    <div class="input-wrapper">
+                        <button id="emojiToggle" class="emoji-toggle">
+                            <i class="far fa-smile"></i>
+                        </button>
+                        <input type="text" id="userInput" placeholder="Type your message...">
+                    </div>
+                    <button id="sendBtn" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div id="apiModal" class="modal h1">
+        <div class="modal-content h1">
+            <h2>
+                <i class="fas fa-key"></i>
+                Gemini API Settings
+            </h2>
+            <div class="form-group">
+                <label for="apiKey">Gemini API Key</label>
+                <input type="password" id="apiKey" placeholder="Enter your Gemini API key">
+            </div>
+            <div class="form-group">
+                <label for="apiEndpoint">API Endpoint (optional)</label>
+                <input type="text" id="apiEndpoint" placeholder="Enter API endpoint URL">
+                <small>Default: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</small>
+            </div>
+            <div class="modal-buttons h1">
+                <button class="cancel-btn" id="cancelBtn">Cancel</button>
+                <button class="save-btn" id="saveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="emoji-picker-container" id="emojiPicker"></div>
+
+    <footer class="fixed bottom-0 w-full bg-white shadow-lg">
+      <nav class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500 hover:text-green-1000">
+          <i class="fas fa-home text-l"></i>
+          <span class="text-xs mt-1">Home</span>
+        </a>
+        <a href="journal.html">
+          <i class="fas fa-book text-l"></i>
+          <span class="text-xs mt-1">Journal</span>
+        </a>
+        <a href="todolist.html">
+          <i class="fas fa-tasks text-l"></i>
+          <span class="text-xs mt-1">Productivity</span>
+        </a>
+        <a href="games2.html">
+          <i class="fas fa-gamepad text-l"></i>
+          <span class="text-xs mt-1">Games</span>
+        </a>
+        <a href="thoughts.html">
+          <i class="fas fa-lightbulb text-l"></i>
+          <span class="text-xs mt-1">Thoughts</span>
+        </a>
+        <a href="settings.html">
+          <i class="fas fa-cog text-l"></i>
+          <span class="text-xs mt-1">Settings</span>
+        </a>
+      </nav>
+    </footer>
+
+    <script>
+
+        // Slideshow functionality
+        let slideIndex = 1;
+        let slideInterval;
+        
+        // Show slides automatically
+        function startSlideshow() {
+            slideInterval = setInterval(function() {
+                plusSlides(1);
+            }, 5000); // Change image every 5 seconds
+        }
+        
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+        
+        // Thumbnail image controls
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+            // Reset the interval when manually changing slides
+            clearInterval(slideInterval);
+            startSlideshow();
+        }
+        
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            
+            // Loop back to first slide if we reach the end
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            // Hide all slides
+            for (i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+            
+            // Remove active class from all dots
+            for (i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active-dot");
+            }
+            
+            // Show the active slide and dot
+            slides[slideIndex-1].classList.add("active");
+            dots[slideIndex-1].classList.add("active-dot");
+        }
+        
+        // Modal variables
+        const loginModal = document.getElementById("login-modal");
+        const loginButton = document.getElementById("login-button");
+        const logoutButton = document.getElementById("logout-button");
+        const closeBtn = document.getElementsByClassName("close-btn")[0];
+        const loginForm = document.getElementById("login-form");
+        const signupLink = document.getElementById("signup-link");
+        const forgotPasswordLink = document.getElementById("forgot-password");
+        const chatLauncher = document.getElementById('chatLauncher');
+            const chatContainer = document.getElementById('chatContainer');
+            const messages = document.getElementById('messages');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const settingsBtn = document.getElementById('settingsBtn');
+            const apiModal = document.getElementById('apiModal');
+            const apiKey = document.getElementById('apiKey');
+            const apiEndpoint = document.getElementById('apiEndpoint');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const typingIndicator = document.getElementById('typingIndicator');
+            const emojiPicker = document.getElementById('emojiPicker');
+            const emojiToggle = document.getElementById('emojiToggle');
+            const notificationDot = document.getElementById('notificationDot');
+
+        // Check if user is already logged in (using localStorage)
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            if (isLoggedIn === "true") {
+                loginButton.classList.add("hidden");
+                logoutButton.classList.remove("hidden");
+                document.getElementById("profile-pic-upload").disabled = false;
+            } else {
+                loginButton.classList.remove("hidden");
+                logoutButton.classList.add("hidden");
+                document.getElementById("profile-pic-upload").disabled = true;
+            }
+        }
+        
+        // Open modal when login button is clicked
+        loginButton.addEventListener("click", function() {
+        loginModal.style.display = "block";
+        });
+
+// Close modal when close button is clicked
+        closeBtn.addEventListener("click", function() {
+        loginModal.style.display = "none";
+        });
+
+// Close modal when clicking outside of it
+        window.addEventListener("click", function(event) {
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+        }
+        });
+
+// Handle login form submission
+    loginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+  
+  // Simple validation
+  if (username && email && password) {
+    // In a real app, you would validate credentials with a server
+    // For demo purposes, just simulate successful login
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", username);
+    checkLoginStatus();
+    loginModal.style.display = "none";
+    
+    // Optional: show a success message
+    alert("Welcome, " + username + "! Login successful!");
+  } else {
+    alert("Please enter username, email, and password");
+  }
+});
+
+// Handle logout button click
+logoutButton.addEventListener("click", function() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("username");
+  localStorage.removeItem("userEmail");
+  checkLoginStatus();
+  
+  // Reset profile picture to default if needed
+  // document.getElementById("profile-pic").src = "default-profile.jpg";
+  
+  // Optional: show a logout message
+  alert("You have been logged out");
+});
+
+// Sign up link click
+signupLink.addEventListener("click", function(event) {
+  event.preventDefault();
+  // In a real app, you would redirect to signup page or show signup form
+  alert("Sign up functionality will be implemented soon!");
+});
+
+// Forgot password link click
+forgotPasswordLink.addEventListener("click", function(event) {
+  event.preventDefault();
+  // In a real app, you would show password recovery form
+  alert("Password recovery functionality will be implemented soon!");
+});
+
+// Check if user is already logged in (using localStorage)
+function checkLoginStatus() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const username = localStorage.getItem("username");
+  
+  if (isLoggedIn === "true") {
+    loginButton.classList.add("hidden");
+    logoutButton.classList.remove("hidden");
+    document.getElementById("profile-pic-upload").disabled = false;
+    
+    // Update UI to show username if available
+    if (username) {
+      // Create or update username display element
+      let usernameDisplay = document.getElementById("username-display");
+      if (!usernameDisplay) {
+        usernameDisplay = document.createElement("div");
+        usernameDisplay.id = "username-display";
+        usernameDisplay.classList.add("username-display");
+        document.querySelector(".profile-pic-container").appendChild(usernameDisplay);
+      }
+      usernameDisplay.textContent = username;
+    }
+  } else {
+    loginButton.classList.remove("hidden");
+    logoutButton.classList.add("hidden");
+    document.getElementById("profile-pic-upload").disabled = true;
+    
+    // Remove username display if it exists
+    const usernameDisplay = document.getElementById("username-display");
+    if (usernameDisplay) {
+      usernameDisplay.remove();
+    }
+  }
+}
+
+// Initialize the application
+document.addEventListener("DOMContentLoaded", function() {
+  // Check login status
+  checkLoginStatus();
+  
+  // Initialize slideshow
+  showSlides(slideIndex);
+  startSlideshow();
+});
+
+loginForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  
+  // Simple validation
+  if (username && email && password) {
+    // Store user data in localStorage for persistence across pages
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", username);
+    localStorage.setItem("userEmail", email); // Store email for settings page
+    
+    // Update UI to reflect logged in state
+    checkLoginStatus();
+    loginModal.style.display = "none";
+    
+    // Optional: show a success message
+    alert("Welcome, " + username + "! Login successful!");
+  } else {
+    alert("Please enter username, email, and password");
+  }
+});
+
+function loadProfilePicture() {
+  const profilePicElement = document.getElementById('profile-pic');
+  if (profilePicElement) {
+    const savedProfilePic = localStorage.getItem("profilePicture");
+    if (savedProfilePic) {
+      profilePicElement.src = savedProfilePic;
+    }
+  }
+
+  const profilePicUpload = document.getElementById('profile-pic-upload');
+  if (profilePicUpload) {
+    profilePicUpload.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imageData = e.target.result;
+          localStorage.setItem("profilePicture", imageData);
+          if (profilePicElement) {
+            profilePicElement.src = imageData;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadProfilePicture);
+
+
+            // Track conversation date
+            let lastMessageDate = '';
+            
+             // Storage for chat history
+            let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+
+            // Load saved API settings
+            let apiSettings = JSON.parse(localStorage.getItem('chatbotApiSettings')) || {
+                key: '',
+                endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+            };
+            
+            // Fill in saved values
+            apiKey.value = apiSettings.key;
+            apiEndpoint.value = apiSettings.endpoint;
+            
+            // Initialize Emoji Mart
+            function initEmojiPicker() {
+                // Clear existing content
+                emojiPicker.innerHTML = '';
+                
+                try {
+                    // Create a new Emoji Mart picker
+                    const picker = new EmojiMart.Picker({
+                        onEmojiSelect: (emoji) => {
+                            // Insert the emoji at the cursor position or at the end
+                            const cursorPos = userInput.selectionStart;
+                            const textBeforeCursor = userInput.value.substring(0, cursorPos);
+                            const textAfterCursor = userInput.value.substring(cursorPos);
+                            
+                            userInput.value = textBeforeCursor + emoji.native + textAfterCursor;
+                            
+                            // Set focus back to input
+                            userInput.focus();
+                            
+                            // Set cursor position after inserted emoji
+                            const newCursorPos = cursorPos + emoji.native.length;
+                            userInput.setSelectionRange(newCursorPos, newCursorPos);
+                            
+                            // Hide picker
+                            emojiPicker.style.display = 'none';
+                        },
+                        set: 'native',
+                        theme: 'light',
+                        showPreview: false,
+                        showSkinTones: true,
+                        emojiSize: 20
+                    });
+                    
+                    emojiPicker.appendChild(picker);
+                } catch (error) {
+                    console.error('Error initializing emoji picker:', error);
+                    // Fallback if emoji picker fails
+                    emojiPicker.innerHTML = '<div style="padding: 10px; background: white; border-radius: 8px;">Emoji picker unavailable</div>';
+                }
+            }
+            
+            // Create ripple effect
+            function createRipple(event, element) {
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = element.getElementsByClassName('ripple')[0];
+                
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                element.appendChild(circle);
+            }
+            
+            // Add ripple event to buttons
+            const rippleButtons = [sendBtn, emojiToggle, saveBtn, cancelBtn, chatLauncher];
+            rippleButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    createRipple(e, this);
+                });
+            });
+            
+            // Toggle chat container visibility with improved circular animation
+            chatLauncher.addEventListener('click', function() {
+                chatContainer.classList.toggle('active');
+                chatLauncher.classList.toggle('active');
+                notificationDot.style.display = 'none';
+                
+                // Change icon based on state with smooth rotation
+                const icon = chatLauncher.querySelector('i');
+                if (chatContainer.classList.contains('active')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-comment';
+                }
+            });
+            
+            // Toggle emoji picker
+            emojiToggle.addEventListener('click', function() {
+                if (emojiPicker.style.display === 'block') {
+                    emojiPicker.style.display = 'none';
+                } else {
+                    // Initialize if needed
+                    if (!emojiPicker.hasChildNodes()) {
+                        initEmojiPicker();
+                    }
+                    emojiPicker.style.display = 'block';
+                }
+            });
+            
+            // Hide emoji picker when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!emojiToggle.contains(e.target) && !emojiPicker.contains(e.target)) {
+                    emojiPicker.style.display = 'none';
+                }
+            });
+            
+            // Open settings modal
+            settingsBtn.addEventListener('click', function() {
+                apiModal.style.display = 'block';
+            });
+            
+            // Close settings modal
+            cancelBtn.addEventListener('click', function() {
+                apiModal.style.display = 'none';
+            });
+            
+            // Save API settings
+            saveBtn.addEventListener('click', function() {
+                apiSettings.key = apiKey.value;
+                apiSettings.endpoint = apiEndpoint.value || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+                
+                localStorage.setItem('chatbotApiSettings', JSON.stringify(apiSettings));
+                apiModal.style.display = 'none';
+                
+                // Add confirmation message
+                addBotMessage("API settings saved! I'm ready to chat with you now.");
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === apiModal) {
+                    apiModal.style.display = 'none';
+                }
+            });
+            
+            // Format message with paragraphs
+            function formatMessage(text) {
+                return text.split('\n').map(paragraph => 
+                    paragraph ? `<div class="message-paragraph">${paragraph}</div>` : ''
+                ).join('');
+            }
+            
+            // Add date separator if needed
+            function checkDateSeparator() {
+                const today = new Date().toLocaleDateString();
+                if (today !== lastMessageDate) {
+                    const separator = document.createElement('div');
+                    separator.className = 'message-separator';
+                    separator.innerHTML = `<span>${today}</span>`;
+                    messages.appendChild(separator);
+                    lastMessageDate = today;
+                    return true;
+                }
+                return false;
+            }
+            
+            // Add user message to chat
+            function addUserMessage(text) {
+                checkDateSeparator();
+                const messageEl = document.createElement('div');
+                messageEl.className = 'message user-message';
+                
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageEl.innerHTML = `
+                    <div class="message-content">${formatMessage(text)}</div>
+                    <div class="message-time">${time}</div>
+                `;
+                
+                messages.appendChild(messageEl);
+                scrollToBottom();
+
+                
+            }
+            
+            // Add bot message to chat
+            function addBotMessage(text) {
+                checkDateSeparator();
+                typingIndicator.style.display = 'none';
+                
+                const messageEl = document.createElement('div');
+                messageEl.className = 'message bot-message';
+                
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageEl.innerHTML = `
+                    <div class="message-content">${formatMessage(text)}</div>
+                    <div class="message-time">${time}</div>
+                `;
+                
+                messages.appendChild(messageEl);
+                scrollToBottom();
+                
+                
+            }
+            
+            // Scroll messages to bottom
+            function scrollToBottom() {
+                messages.scrollTop = messages.scrollHeight;
+            }
+            
+            // Send message to API
+            async function sendToAPI(message) {
+                if (!apiSettings.key) {
+                    addBotMessage("Please add your API key in settings first.");
+                    return;
+                }
+                
+                // Show typing indicator
+                typingIndicator.style.display = 'block';
+                scrollToBottom();
+                
+                try {
+                    const response = await fetch(`${apiSettings.endpoint}?key=${apiSettings.key}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [
+                                {
+                                    role: 'user',
+                                    parts: [{ text: message }]
+                                }
+                            ],
+                            generationConfig: {
+                                temperature: 0.7,
+                                maxOutputTokens: 800
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                        const botResponse = data.candidates[0].content.parts[0].text;
+                        addBotMessage(botResponse);
+                    } else {
+                        throw new Error('Invalid response format');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    addBotMessage(`Sorry, I encountered an error: ${error.message}`);
+                }
+            }
+            
+            // Send message function
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addUserMessage(message);
+                    userInput.value = '';
+                    sendToAPI(message);
+                }
+            }
+            
+            // Send button click
+            sendBtn.addEventListener('click', sendMessage);
+            
+            // Enter key press
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Initial focus
+            userInput.focus();
+            
+            // Close windows with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (apiModal.style.display === 'block') {
+                        apiModal.style.display = 'none';
+                    } else if (emojiPicker.style.display === 'grid') {
+                        emojiPicker.style.display = 'none';
+                    } else if (chatContainer.classList.contains('active')) {
+                        chatContainer.classList.remove('active');
+                        chatLauncher.classList.remove('active');
+                        chatLauncher.querySelector('i').className = 'fas fa-comment';
+                    }
+                }
+            });
+            
+            // Check API key and show appropriate message
+            if (!apiSettings.key) {
+                setTimeout(() => {
+                    addBotMessage("Welcome! To get started, please click the settings icon and enter your Gemini API key.");
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    addBotMessage("Welcome back! How can I assist you today?");
+                }, 1000);
+            }
+        
+
+</script>
+</body>
+</html>
